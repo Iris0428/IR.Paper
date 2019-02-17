@@ -93,7 +93,9 @@ g profitmarket = profit - laborwage
 
 **分类均值、最大值、最小值和方差分析
 bys cland:sum yield income profit land labor flabor elabor machine ot subsidy insurance plots fstruct job sex age educ train health status
-tabstat yield income profit profitmarket land labor flabor elabor machine ot subsidy insurance plots fstruct job sex age educ train health status , statistics(mean sd) by(cland)
+
+**检验是否服从正态分布
+tabstat yield income profit profitmarket land labor flabor elabor machine ot subsidy insurance plots fstruct job sex age educ train health status , statistics(mean max min medium sd   ) by(cland)
 ta cland 
 
 **用excel计算面板中个体数量有多少
