@@ -188,13 +188,13 @@ duplicates drop id year,force
 xtset id year
 
 **分类均值、最大值、最小值、25%、50%、75%、偏度、峰度、标准差分析
-xtsum yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status, by(caland) statistics(mean ma mi q sk k sd n) 
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2011, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2012, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2013, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2014, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2015, by(caland) statistics(mean ma mi q sk k sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status, by(caland) statistics(mean ma mi q sk k sd n) 
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2011, by(caland) statistics(mean ma mi q sk k sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2012, by(caland) statistics(mean ma mi q sk k sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2013, by(caland) statistics(mean ma mi q sk k sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2014, by(caland) statistics(mean ma mi q sk k sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2015, by(caland) statistics(mean ma mi q sk k sd n)
+xtsum yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status
 
 **方差分析
 oneway yield caland, mean bonferroni 
@@ -207,6 +207,7 @@ oneway machane caland, mean bonferroni
 oneway ot caland, mean bonferroni 
 oneway subsidy caland, mean bonferroni 
 oneway insurance caland, mean bonferroni 
+oneway loan caland, mean bonferroni 
 oneway plots caland, mean bonferroni 
 oneway fstruct caland, mean bonferroni 
 oneway job caland, mean bonferroni 

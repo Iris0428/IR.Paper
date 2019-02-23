@@ -1,4 +1,4 @@
-**以土地单产为土地生产率
+**single玉米
 
 use "D:\曾翠红\Stata14\新建文件夹 - 副本 (2)\新建文件夹\allnet.dta", clear
 keep if sm==13|sm==14|sm==15|sm==21|sm==22|sm==23|sm==61|sm==62|sm==64|sm==65
@@ -259,6 +259,13 @@ estat vif
 qui reg lnyield lnland land lnlabor lnfertile lnmachane lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy
 estat vif
 pwcorr lnlabor lnfertile lnmachane lnot  lnlabor2 lnfertile2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot
+
+xtreg lnlabor lnland lnland2 lnfertile lnmachane lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
+xtreg lnflabor lnland lnland2 lnfertile lnmachane lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
+xtreg lnelabor lnland lnland2 lnfertile lnmachane lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
+xtreg lnfertile lnland lnland2 lnlabor lnmachane lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
+xtreg lnmachane lnland lnland2 lnlabor lnfertile lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
+xtreg lnot lnland lnland2 lnlabor lnfertile lnmachane sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
 
 xtreg lnlabor lnland lnland2,fe r
 xtreg lnflabor lnland lnland2,fe r
