@@ -1,0 +1,3374 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\曾翠红\Stata14\新建文件夹 - 副本 (2)\新建文件夹\水稻log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}22 Feb 2019, 14:59:16
+
+{com}. do "D:\曾翠红\Stata14\新建文件夹 - 副本 (2)\新建文件夹\水稻.do"
+{txt}
+{com}. **以土地单产为土地生产率
+. 
+. use "D:\曾翠红\Stata14\新建文件夹 - 副本 (2)\新建文件夹\allnet.dta", clear
+{txt}
+{com}. keep if sm==33|sm==34|sm==35|sm==36|sm==42|sm==43|sm==44|sm==45|sm==46
+{txt}(68,949 observations deleted)
+
+{com}. 
+. 
+. **包含的变量有（yield、income、profit、land、cland、labor、flabor、elabor、resident、machine、other、subsidy、insurance、plots、fstruct、job、concurrent、sex、age、educ、train、health、status）
+. 
+. **选取变量(删除收获面积、年末耕地面积、家庭常住人口、家庭全年总收入为0的农户数据，并将部分变量+0.001）
+. drop if rland==0  //
+{txt}(600 observations deleted)
+
+{com}. drop if rland==.
+{txt}(17,534 observations deleted)
+
+{com}. drop if ryields==.
+{txt}(7 observations deleted)
+
+{com}. g yield = ryields/rland
+{txt}
+{com}. winsor yield, g (yieldo) p(0.05)
+{txt}
+{com}. sum yieldo
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}yieldo {c |}{res}     12,222     484.254    143.3043   285.7143   833.3334
+{txt}
+{com}. drop if yield>833.3334
+{txt}(608 observations deleted)
+
+{com}. drop if yield<285.7143
+{txt}(631 observations deleted)
+
+{com}. 
+. g land = rland      
+{txt}
+{com}. g labors= rlabors   
+{txt}(709 missing values generated)
+
+{com}. g elabors= relabors     
+{txt}(9,112 missing values generated)
+
+{com}. g e1=re1 
+{txt}(263 missing values generated)
+
+{com}. g e2=re2 
+{txt}(8,650 missing values generated)
+
+{com}. g e3=re3 
+{txt}(69 missing values generated)
+
+{com}. g e4=re4 
+{txt}(8,044 missing values generated)
+
+{com}. g e5=re5 
+{txt}(358 missing values generated)
+
+{com}. g e6=re6 
+{txt}(7,146 missing values generated)
+
+{com}. g e7=re7 
+{txt}(8,676 missing values generated)
+
+{com}. g e8=re8 
+{txt}(2,264 missing values generated)
+
+{com}. g e9=re9
+{txt}(6,953 missing values generated)
+
+{com}. g e10=re10
+{txt}(7,619 missing values generated)
+
+{com}. g e11=re11 
+{txt}(9,346 missing values generated)
+
+{com}. g e12=re12   //
+{txt}(7,727 missing values generated)
+
+{com}. ren age agee
+{res}{txt}
+{com}. //winsor land,gen (land1) p(0.025)
+. //sum land1
+. //sum land
+. 
+. //drop if elando ==.
+. //drop if elando ==0
+. drop if labors ==0
+{txt}(23 observations deleted)
+
+{com}. drop if labors==.
+{txt}(709 observations deleted)
+
+{com}. drop if quantitys ==.
+{txt}(461 observations deleted)
+
+{com}. //drop if resident ==.
+. //drop if resident ==0
+. 
+. replace eland=0 if eland==.
+{txt}(7 real changes made)
+
+{com}. replace elabors=0 if elabors==.
+{txt}(8,001 real changes made)
+
+{com}. replace e1=0 if e1==.
+{txt}(201 real changes made)
+
+{com}. replace e2=0 if e2==.
+{txt}(7,665 real changes made)
+
+{com}. replace e3=0 if e3==.
+{txt}(48 real changes made)
+
+{com}. replace e4=0 if e4==.
+{txt}(7,097 real changes made)
+
+{com}. replace e5=0 if e5==.
+{txt}(311 real changes made)
+
+{com}. replace e6=0 if e6==.
+{txt}(6,307 real changes made)
+
+{com}. replace e7=0 if e7==.
+{txt}(7,719 real changes made)
+
+{com}. replace e8=0 if e8==.
+{txt}(2,000 real changes made)
+
+{com}. replace e9=0 if e9==.
+{txt}(5,963 real changes made)
+
+{com}. replace e10=0 if e10==.
+{txt}(6,587 real changes made)
+
+{com}. replace e11=0 if e11==.
+{txt}(8,226 real changes made)
+
+{com}. replace e12=0 if e12==.
+{txt}(6,855 real changes made)
+
+{com}. 
+. replace s1=0 if s1==.
+{txt}(1,188 real changes made)
+
+{com}. replace s2=0 if s2==.
+{txt}(1,751 real changes made)
+
+{com}. replace s3=0 if s3==.
+{txt}(3,044 real changes made)
+
+{com}. replace s4=0 if s4==.
+{txt}(9,055 real changes made)
+
+{com}. g subsidys = s1+s2+s3+s4
+{txt}
+{com}. 
+. replace sex=0 if sex!=1
+{txt}(3,902 real changes made)
+
+{com}. 
+. g health = train3
+{txt}(3,493 missing values generated)
+
+{com}. replace health=4 if health==0
+{txt}(0 real changes made)
+
+{com}. replace health=4 if health==.
+{txt}(3,493 real changes made)
+
+{com}. replace health=4 if health>5
+{txt}(0 real changes made)
+
+{com}. replace health=10 if health==1
+{txt}(2,742 real changes made)
+
+{com}. replace health=9 if health==2
+{txt}(2,539 real changes made)
+
+{com}. replace health=7 if health==2
+{txt}(0 real changes made)
+
+{com}. replace health=6 if health==5
+{txt}(42 real changes made)
+
+{com}. replace health=5 if health==10
+{txt}(2,742 real changes made)
+
+{com}. replace health=4 if health==9
+{txt}(2,539 real changes made)
+
+{com}. replace health=2 if health==7
+{txt}(0 real changes made)
+
+{com}. replace health=1 if health==6
+{txt}(42 real changes made)
+
+{com}. 
+. replace resident=0 if resident==.
+{txt}(5 real changes made)
+
+{com}. 
+. replace familylabor=0 if familylabor==.
+{txt}(84 real changes made)
+
+{com}. 
+. replace status1=0 if status1!=1
+{txt}(9,555 real changes made)
+
+{com}. replace status2=0 if status2!=1
+{txt}(9,418 real changes made)
+
+{com}. replace status3=0 if status3!=1
+{txt}(8,380 real changes made)
+
+{com}. g status = status1+status2+status3
+{txt}
+{com}. replace status=1 if status!=0
+{txt}(312 real changes made)
+
+{com}. 
+. replace train1=0 if train1!=1
+{txt}(9,552 real changes made)
+
+{com}. replace train2=0 if train2!=1
+{txt}(9,368 real changes made)
+
+{com}. g train = train1+train2
+{txt}
+{com}. replace train=1 if train!=0
+{txt}(185 real changes made)
+
+{com}. 
+. replace insurances=0 if insurances==.
+{txt}(8,040 real changes made)
+
+{com}. replace insurances=1 if insurances!=0
+{txt}(1,216 real changes made)
+
+{com}. 
+. replace loan1=1 if loan1>0
+{txt}(9,188 real changes made)
+
+{com}. replace loan1=0 if loan1!=1
+{txt}(0 real changes made)
+
+{com}. replace loan2=1 if loan1>0
+{txt}(9,188 real changes made)
+
+{com}. replace loan2=0 if loan2!=1
+{txt}(1 real change made)
+
+{com}. g loan=loan1+loan2
+{txt}
+{com}. replace loan=1 if loan!=0
+{txt}(9,188 real changes made)
+
+{com}. 
+. egen avg_agriincome = mean(agriincome)
+{txt}
+{com}. replace agriincome=avg_agriincome if agriincome==.
+{txt}(1,069 real changes made)
+
+{com}. egen avg_allincome = mean(allincome)
+{txt}
+{com}. replace allincome=avg_allincome if allincome==.
+{txt}(6 real changes made)
+
+{com}. egen avg_age = mean(agee)
+{txt}
+{com}. replace agee=avg_age if agee==.
+{txt}(3,471 real changes made)
+
+{com}. egen avg_educ = mean(educ)
+{txt}
+{com}. replace educ=avg_educ if educ==.
+{txt}(3,611 real changes made)
+
+{com}. 
+. 
+. g machanes = e8+e9+e10
+{txt}
+{com}. g fertiles = e2+e3
+{txt}
+{com}. g ots = e1+e4+e5+e6+e7+e12
+{txt}
+{com}. g flabors = labors-elabors
+{txt}
+{com}. 
+. 
+. 
+. //tostring id, replace 
+. //gen sm=substr(id,1,2)
+. //egen yearsm = concat(year sm)
+. //g wage0 = elaborpay/elabors
+. //bysort yearsm:egen wageo=mean(wage0)
+. //bysort yearsm:egen quantitye = mean(quantity)
+. 
+. winsor quantitys, gen (quantity) p(0.01)
+{txt}
+{com}. //winsor agriincomes, gen (agriincome) p(0.001)
+. //winsor allincomes, gen (allincome) p(0.001)
+. winsor agee, gen (age) p(0.01)
+{txt}
+{com}. 
+. g laboro = labors/land
+{txt}
+{com}. winsor laboro, g (labor) p(0.01)   
+{txt}
+{com}. g elaboro = elabors/land
+{txt}
+{com}. //winsor elabor0, gen (elaboro) p(0.001) 
+. g flaboro = labor - elaboro
+{txt}
+{com}. 
+. g fertile0 = fertiles/land
+{txt}
+{com}. g machane0 = machanes/land
+{txt}
+{com}. g ot0 = ots/land
+{txt}
+{com}. g subsidy0 = subsidys/eland
+{txt}(10 missing values generated)
+
+{com}. winsor fertile0, gen (fertileo) p(0.01)
+{txt}
+{com}. winsor machane0, gen (machaneo) p(0.01)
+{txt}
+{com}. winsor ot0, gen (oto) p(0.1)
+{txt}
+{com}. winsor subsidy0, gen (subsidyo) p(0.01)
+{txt}
+{com}. 
+. g plots = eland/quantity
+{txt}
+{com}. egen ave_plots = mean(plots)
+{txt}
+{com}. replace plots=ave_plots if plots==.
+{txt}(0 real changes made)
+
+{com}. 
+. egen avg_sub = mean(subsidyo)
+{txt}
+{com}. replace subsidyo=avg_sub if subsidyo==.
+{txt}(10 real changes made)
+
+{com}. 
+. g job = 1-agriincome/allincome
+{txt}(1 missing value generated)
+
+{com}. replace job=0 if job<0
+{txt}(109 real changes made)
+
+{com}. egen avg_job = mean(job)
+{txt}
+{com}. replace job=avg_job if job==.
+{txt}(1 real change made)
+
+{com}. 
+. 
+. g flabor = flaboro+0.001
+{txt}
+{com}. g elabor = elaboro+0.001    
+{txt}
+{com}. g fertile = fertileo+0.001
+{txt}
+{com}. g machane = machaneo+0.001
+{txt}
+{com}. g ot = oto+0.001
+{txt}
+{com}. g subsidy = subsidyo+0.001
+{txt}
+{com}. 
+. 
+. g fstructs = familylabor/resident
+{txt}(9 missing values generated)
+
+{com}. egen avg_fstruct = mean(fstructs)
+{txt}
+{com}. replace fstructs=avg_fstruct if fstruct==.
+{txt}(9 real changes made)
+
+{com}. winsor fstructs, gen (fstruct) p(0.01)
+{txt}
+{com}. 
+. g caland = land 
+{txt}
+{com}. replace caland = 1 if land>=0&land<10
+{txt}(7,613 real changes made)
+
+{com}. replace caland = 2 if land>=10&land<50
+{txt}(1,563 real changes made)
+
+{com}. replace caland = 3 if land>=50
+{txt}(29 real changes made)
+
+{com}. 
+. tabstat yield land labor flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status, statistics(mean ma mi q sk k sd n) 
+
+{txt}   stats {...}
+{c |}{...}
+     yield      land     labor    flabor    elabor   fertile   machane        ot   subsidy  insura~s      loan     plots   fstruct       job       sex       age
+{hline 9}{c +}{hline 160}
+{ralign 8:mean} {...}
+{c |}{...}
+ {res} 475.0305  5.699714  19.75299  19.51537  .2396188  165.1135  117.1956  149.6914  120.6105  .1242084  .9385087   1.09731  .7400423   .691148    .60143  54.69087
+{txt}{ralign 8:max} {...}
+{c |}{...}
+ {res} 833.3334       227  83.33333  83.33433    50.001   462.501  422.7283  264.7551   618.001         1         1       297       2.5         1         1        76
+{txt}{ralign 8:min} {...}
+{c |}{...}
+ {res} 285.8333        .1  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0         0        31
+{txt}{ralign 8:p25} {...}
+{c |}{...}
+ {res}      400       1.9  10.81081  10.52732      .001  114.2867  47.62005    95.001  63.33433         0         1  .4777778        .5  .5389911         0        52
+{txt}{ralign 8:p50} {...}
+{c |}{...}
+ {res}      460       3.3  16.12903    16.001      .001   150.001  110.8201   140.001  103.4493         0         1       .75  .6666667  .7632346         1  54.70027
+{txt}{ralign 8:p75} {...}
+{c |}{...}
+ {res} 533.3333       6.7        25    24.001      .001   200.001   168.751   197.501  151.1121         0         1    1.1875         1  .8991582         1        59
+{txt}{ralign 8:skewness} {...}
+{c |}{...}
+ {res} .8254312  7.530107  2.044197  2.056697  17.00996  1.337118    .74894  .4087758  2.489345  2.278774  -3.65075  79.34988  1.687731 -.8948977 -.4143351 -.2544293
+{txt}{ralign 8:kurtosis} {...}
+{c |}{...}
+ {res} 3.521522  135.7873  8.454868  8.517623  439.1746  5.350011  3.671542  1.994064  12.01215  6.192811  14.32798   7268.11  8.705142   2.87882  1.171674  3.793683
+{txt}{ralign 8:sd} {...}
+{c |}{...}
+ {res}  114.644  7.643471  13.97077  13.98923    1.3591  78.41128  89.53313  64.63059  95.57553   .329836  .2402416  3.222021  .3824358  .2542551  .4896289  8.321548
+{txt}{ralign 8:N} {...}
+{c |}{...}
+ {res}     9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790
+{txt}{hline 9}{c BT}{hline 160}
+
+   stats {...}
+{c |}{...}
+      educ     train    health    status
+{hline 9}{c +}{hline 40}
+{ralign 8:mean} {...}
+{c |}{...}
+ {res} 6.644279  .0485189  4.193054  .1722165
+{txt}{ralign 8:max} {...}
+{c |}{...}
+ {res}       16         1         5         1
+{txt}{ralign 8:min} {...}
+{c |}{...}
+ {res}        0         0         1         0
+{txt}{ralign 8:p25} {...}
+{c |}{...}
+ {res}        6         0         4         0
+{txt}{ralign 8:p50} {...}
+{c |}{...}
+ {res} 6.644279         0         4         0
+{txt}{ralign 8:p75} {...}
+{c |}{...}
+ {res}        8         0         5         0
+{txt}{ralign 8:skewness} {...}
+{c |}{...}
+ {res}-.1444122  4.202561 -.5802919  1.736286
+{txt}{ralign 8:kurtosis} {...}
+{c |}{...}
+ {res} 4.796643  18.66152   5.66169  4.014688
+{txt}{ralign 8:sd} {...}
+{c |}{...}
+ {res} 2.042008   .214871  .5963357  .3775878
+{txt}{ralign 8:N} {...}
+{c |}{...}
+ {res}     9790      9790      9790      9790
+{txt}{hline 9}{c BT}{hline 40}
+
+{com}. 
+. 
+. **删除面板重复值
+. duplicates drop id year,force
+
+{p 0 4}{txt}Duplicates in terms of {res} id year{p_end}
+
+{txt}(0 observations are duplicates)
+
+{com}. xtset id year
+{res}{txt}{col 8}panel variable:  {res}id (unbalanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 2011 to 2015, but with gaps
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. 
+. **分类均值、最大值、最小值、25%、50%、75%、偏度、峰度、标准差分析
+. xtsum yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status
+
+{txt}Variable         {c |}      Mean   Std. Dev.       Min        Max {c |}    Observations
+{hline 17}{c +}{hline 44}{c +}{hline 16}
+yield{col 10}overall {c |} {res} 475.0305    114.644   285.8333   833.3334{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 108.3258   285.8333   833.3333{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 52.63129   95.03047   849.5759{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+land{col 10}overall {c |} {res} 5.699714   7.643471         .1        227{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 6.447249         .1        115{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 2.770631  -58.70029   165.2997{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+labor{col 10}overall {c |} {res} 19.75299   13.97077   2.222222   83.33333{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 14.00362   2.222222   83.33333{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 5.350382  -12.38986   74.68632{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+flabor{col 10}overall {c |} {res} 19.51537   13.98923       .001   83.33433{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 13.99039   2.010647   83.33433{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 5.420576  -20.48463    74.5487{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+elabor{col 10}overall {c |} {res} .2396188     1.3591       .001     50.001{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 1.025044       .001   23.33433{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res}  .957674  -23.09371   37.73962{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+fertile{col 10}overall {c |} {res} 165.1135   78.41128     33.251    462.501{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 70.09637     33.251    462.501{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 42.36797  -62.38652   465.9885{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+machane{col 10}overall {c |} {res} 117.1956   89.53313       .001   422.7283{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 79.53048       .001   422.7283{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 46.28395  -205.9456   412.1956{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+ot{col 10}overall {c |} {res} 149.6914   64.63059   64.58434   264.7551{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 58.63561   64.58434   264.7551{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 33.92183  -4.690522    309.828{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+subsidy{col 10}overall {c |} {res} 120.6105   95.57553       .001    618.001{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 89.18352       .001    618.001{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res}  46.3787  -253.7895   576.2605{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+insura~s{col 10}overall {c |} {res} .1242084    .329836          0          1{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} .2592261          0          1{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} .1958077  -.6757916   .9242084{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+plots{col 10}overall {c |} {res}  1.09731   3.222021          0        297{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 1.538314        .05   63.37214{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 2.649601  -57.54626   234.7252{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+fstruct{col 10}overall {c |} {res} .7400423   .3824358          0        2.5{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} .2899577          0        2.5{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} .2747348  -.8599577   2.640042{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+job{col 10}overall {c |} {res}  .691148   .2542551          0          1{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res}  .234994          0          1{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} .1213923  -.0957179   1.361389{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+sex{col 10}overall {c |} {res}   .60143   .4896289          0          1{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} .2917451          0          1{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} .4330535    -.14857    1.40143{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+age{col 10}overall {c |} {res} 54.69087   8.321548         31         76{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 7.398725         31         76{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} 4.939008    27.5158    82.2658{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+educ{col 10}overall {c |} {res} 6.644279   2.042008          0         16{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} 1.779067          0         15{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res}  1.20306    .144279   13.14428{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+train{col 10}overall {c |} {res} .0485189    .214871          0          1{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} .1960774          0          1{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} .1287429  -.7014811   .8485189{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+health{col 10}overall {c |} {res} 4.193054   .5963357          1          5{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} .4918794          1          5{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} .3916654   1.393054   6.443054{txt} {c |} T-bar =  3.1258
+{col 18}{c |}{col 63}{c |}
+status{col 10}overall {c |} {res} .1722165   .3775878          0          1{txt} {c |}{col 69}N =    9790
+{col 10}between {c |}{col 31}{res} .3194643          0          1{txt} {c |}{col 69}n =    3132
+{col 10}within  {c |}{col 31}{res} .2137977  -.6277835   .9722165{txt} {c |} T-bar =  3.1258
+
+{com}. tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status, by(caland) statistics(mean ma mi q sk k sd n) 
+
+{txt}Summary statistics: mean, max, min, p25, p50, p75, skewness, kurtosis, sd, N
+  by categories of: caland 
+
+{ralign 8:caland} {...}
+{c |}{...}
+     yield      land     labor    flabor    elabor   fertile   machane        ot   subsidy  insura~s     plots   fstruct       job       sex       age      educ
+{hline 9}{c +}{hline 160}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} 477.5764  3.325091  21.48632  21.23848  .2498458   167.134  115.8156  150.6295  125.0348  .1238107  .8871552  .7347053  .7179532  .5985606  54.79213  6.681528
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       9.9  83.33333  83.33433    50.001   462.501  422.7283  264.7551   618.001         1         9       2.5         1         1        76        16
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 285.8333        .1  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400       1.6  12.30769    12.001      .001   112.001    32.001  94.44544  66.66766         0  .4416667        .5  .5794449         0        52         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  461.451       2.8        18  17.64806      .001   150.001  104.3488  140.4061   105.001         0        .7  .6666667  .7942181         1  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      540       4.5  25.05263    25.001      .001   200.001  172.4148   200.001  154.9204         0  1.042857         1  .9158272         1        59         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .8282786  .9449505  1.963276  1.970715  16.36731  1.261342  .7694642  .3961174  2.408358  2.284328  3.798962  1.674323 -1.077394 -.4021327 -.2496986 -.1050164
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  3.41371  3.105197  7.853148  7.891642  416.0423  4.878179  3.488328  1.941179   11.0319  6.218153  26.72646  8.664897  3.361609  1.161711  3.693626  4.924325
+{txt}{space 8} {...}
+{c |}{...}
+ {res}   117.99  2.210644  14.35865  14.39362   1.39698  82.40837  94.10932  66.10732  100.2822  .3293855  .7862041  .3832827  .2476596  .4902195  8.529753   2.03468
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     8198      8198      8198      8198      8198      8198      8198      8198      8198      8198      8198      8198      8198      8198      8198      8198
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:2} {...}
+{c |}{...}
+ {res}  461.659  16.75867  10.86927   10.6965  .1747711  155.1467   124.132  144.5991  98.93756  .1247601  1.944841  .7659419  .5586954  .6174024  54.20451  6.468938
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      824      49.5        70    70.001  35.64456   462.501  415.2552  264.7551   618.001         1      14.1       2.5  .9783474         1        76        13
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 286.6667        10  2.222222      .001      .001    33.251      .001  64.58434      .001         0  .1818182         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400      11.5  6.923077  6.819182      .001   120.001  83.91766  96.46889    52.201         0        .7        .5  .3622018         0        51         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 454.5454      14.4        10   9.63063      .001  148.8564   123.001  138.1589  94.67253         0  1.142857       .75  .5925404         1  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 518.3486      19.7  13.88889  13.66466      .001   185.001  156.4189  185.1314  137.7074         0  2.333333         1  .7571514         1        57         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .5289221  1.660407  1.887411  1.910835  22.25433  1.430267  .5237843  .4125393  1.942298  2.271107  2.474804  1.792126 -.3377023 -.4831164 -.3842736 -.3363333
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.431362  5.929082  12.42091   12.8734  626.6476  8.363297  4.175585  2.182786  15.83471  6.157928  10.26436    9.0546  2.007101  1.233401   4.30574  4.138642
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 94.48654  7.219803  6.306762   6.23859  1.144509  52.26301  60.56466  56.24187  61.12165  .3305524  2.058569  .3773463  .2396548  .4861768  7.151542  2.074333
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1563      1563      1563      1563      1563      1563      1563      1563      1563      1563      1563      1563      1563      1563      1563      1563
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:3} {...}
+{c |}{...}
+ {res} 476.0127  80.94138  8.559754  7.718119  .8436349   131.117  133.4329  158.9313  38.00716  .2068966  14.82687  .8528736  .2523227  .5517241  52.27943  5.564677
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 757.5757       227   75.6579  74.34311  3.290474   210.001  258.4626  253.9251   159.496         1       297         2  .8554789         1        65         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 330.8511      50.7  2.222222  .9016364      .001  78.78888  70.07507  64.58434  4.149649         0       .75        .5  .0322488         0        39         3
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      407        54  3.451676  2.414793      .001  107.5482  106.3301  123.9067  11.25814         0    1.3175        .6  .0974593         0        49         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 470.0508      60.8         4  3.774585  .6496486  126.3301  129.2391   163.531  16.88425         0     1.825  .8333333  .1562695         1  54.70027         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 520.3333      98.5  5.833333     5.001  1.273727  142.7895   160.001  193.2417  41.13784         0      9.85         1  .2953219         1  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  .658255   2.02098  3.560932  3.579273  1.150154  .9843163   .912036  .0888959  1.782354  1.447136  5.051281  1.441771  1.443112 -.2080126 -.4445977 -.8205909
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.661163  6.979757  14.42917   14.5927  3.773963   3.45173  4.334189  2.039999  4.902729  3.094203  26.69844  5.338311  3.983343  1.043269  3.306349  2.175353
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 97.43779  41.77323  15.71196  15.51655  .8621953   32.8872  40.15833  52.21823  45.59407  .4122508  54.44079  .3515857  .2269987  .5061202  5.896502  1.568673
+{txt}{space 8} {...}
+{c |}{...}
+ {res}       29        29        29        29        29        29        29        29        29        29        29        29        29        29        29        29
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} 475.0305  5.699714  19.75299  19.51537  .2396188  165.1135  117.1956  149.6914  120.6105  .1242084   1.09731  .7400423   .691148    .60143  54.69087  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       227  83.33333  83.33433    50.001   462.501  422.7283  264.7551   618.001         1       297       2.5         1         1        76        16
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 285.8333        .1  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400       1.9  10.81081  10.52732      .001  114.2867  47.62005    95.001  63.33433         0  .4777778        .5  .5389911         0        52         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      460       3.3  16.12903    16.001      .001   150.001  110.8201   140.001  103.4493         0       .75  .6666667  .7632346         1  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 533.3333       6.7        25    24.001      .001   200.001   168.751   197.501  151.1121         0    1.1875         1  .8991582         1        59         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .8254312  7.530107  2.044197  2.056697  17.00996  1.337118    .74894  .4087758  2.489345  2.278774  79.34988  1.687731 -.8948977 -.4143351 -.2544293 -.1444122
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.521522  135.7873  8.454868  8.517623  439.1746  5.350011  3.671542  1.994064  12.01215  6.192811   7268.11  8.705142   2.87882  1.171674  3.793683  4.796643
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  114.644  7.643471  13.97077  13.98923    1.3591  78.41128  89.53313  64.63059  95.57553   .329836  3.222021  .3824358  .2542551  .4896289  8.321548  2.042008
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790      9790
+{txt}{hline 9}{c BT}{hline 160}
+
+{ralign 8:caland} {...}
+{c |}{...}
+     train    health    status
+{hline 9}{c +}{hline 30}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} .0452549  4.181874  .1695535
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 4.375435  -.581417  1.761253
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 20.14444  5.933934  4.102013
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2078754  .5885975   .375263
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     8198      8198      8198
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} .0633397   4.24952   .184261
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.585457 -.6242209  1.628793
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  13.8555  4.608959  3.652966
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  .243651  .6344199   .387821
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1563      1563      1563
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:3} {...}
+{c |}{...}
+ {res} .1724138  4.310345  .2758621
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 1.734455  .8198916  1.002972
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 4.008333  1.672222  2.005952
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .3844259  .4708236  .4548588
+{txt}{space 8} {...}
+{c |}{...}
+ {res}       29        29        29
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} .0485189  4.193054  .1722165
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 4.202561 -.5802919  1.736286
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 18.66152   5.66169  4.014688
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  .214871  .5963357  .3775878
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     9790      9790      9790
+{txt}{hline 9}{c BT}{hline 30}
+
+{com}. tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2011, by(caland) statistics(mean ma mi q sk k sd n)
+
+{txt}Summary statistics: mean, max, min, p25, p50, p75, skewness, kurtosis, sd, N
+  by categories of: caland 
+
+{ralign 8:caland} {...}
+{c |}{...}
+     yield      land     labor    flabor    elabor   fertile   machane        ot   subsidy  insura~s     plots   fstruct       job       sex       age      educ
+{hline 9}{c +}{hline 160}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} 463.9525  3.308983  22.42306  22.13006  .2950009  154.2016  88.16621   140.751  109.6853  .0903258  .8593217  .7372556  .6889316  .9274432   53.9811  6.686756
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       9.7  83.33333  83.33433    35.001   462.501  422.7283  264.7551   618.001         1       7.2       2.5  .9998153         1        76        16
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 285.8333        .2  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 375.9615       1.6  13.63636  13.33433      .001  103.1179  16.66767  85.16229  60.27127         0       .46        .5   .538896         1        46         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 448.0385       2.8        20  19.23177      .001   140.001  81.08054  127.7081    93.751         0        .7  .7142857  .7606051         1        55  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      510       4.5  26.47059    26.001      .001   187.501   130.001  180.9101   136.001         0         1         1  .8968729         1        62         9
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .9593442  .9229658  1.945611  1.964569  11.08659  1.447735   1.02394  .6118478  2.684969  2.858379  2.785205  1.633391 -.9194535 -3.295534 -.1594275 -.0084996
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  3.71634  3.083915  7.903023  7.996223  182.8034   6.02025  4.609023  2.236004  14.15115  9.170333  15.80691  10.77743  2.999879  11.86055  2.393974  3.233658
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 117.0768  2.169118  14.21675  14.23251  1.542486  75.32126  76.42741  64.06157  85.53591  .2867187  .6725345  .3223523  .2532037  .2594716  10.52153  2.473219
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     2026      2026      2026      2026      2026      2026      2026      2026      2026      2026      2026      2026      2026      2026      2026      2026
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} 431.9507  16.21762  11.99973  11.73116  .2705796  145.4941  106.4574  123.5311  97.08336  .0271003  1.893468  .7692692  .5725852  .9512195  53.05149  6.201142
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 773.8738        47  58.06452  58.06552  35.64456  297.3344  331.1331  264.7551   618.001         1      14.1       2.5   .961359         1        76        13
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 286.6667        10  2.222222      .001      .001  38.46254      .001  64.58434      .001         0       .28        .2  .0310586         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 362.4576      11.5  8.695652  8.334333      .001  115.8547   70.9385    93.001  54.54645         0  .6666667  .5714286  .4250421         1        47         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      425        14  10.71429  10.53433      .001  135.7153   115.001  121.8343  88.91991         0      1.14       .75  .6034858         1        54         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      500        19  14.78261  14.28671      .001   180.001  139.6439  151.5114  137.4322         0     2.075         1  .7553626         1        60         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .7274416  1.694958  1.750027  1.730824  15.12151  .5494461  .3661722  .4809481  3.286387  5.824762  2.429202  2.063013  -.451065 -4.189425 -.0994065 -.0317556
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 4.334952  6.663423  10.63704   11.1883  250.6581  3.335771  3.771972  3.127177  26.89412  34.92786  9.955007  13.76729  2.251759  18.55128  2.741815   2.55699
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 84.93312  6.420889  6.397793  6.271425  2.047071  44.79224   57.1771  38.48902  63.50124  .1625961  2.019773  .2856355  .2282516  .2157013  9.233096  2.570816
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      369       369       369       369       369       369       369       369       369       369       369       369       369       369       369       369
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:3} {...}
+{c |}{...}
+ {res} 424.6794      65.8  5.777453  5.365552  .4139014  110.3916   86.0703  136.8641  43.23334         0  6.425208  .7916667  .1515369         1      49.5         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 489.1519        94  9.803922  9.804922  .7417407   130.099  107.9691  168.5936  89.55982         0    11.875         1  .2144312         1        62         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 330.8511      50.7  2.446809  2.128659      .001  87.29883  70.07507  64.58434  5.858988         0     1.225  .6666667  .0990476         1        39         3
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 368.0181     50.85  2.949242   2.49481  .1605745  92.39991  71.50863  106.1171  19.63526         0   1.24625  .6666667  .1222675         1        42         3
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 439.3573     59.25  5.429542  4.764313  .4564324  112.0843  83.11853  157.1392  38.75728         0  6.300417       .75  .1463345         1      48.5       4.5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 481.3406     80.75  8.605664  8.236294  .6672283  128.3834   100.632   167.611  66.83143         0  11.60417  .9166667  .1808064         1        57         7
+{txt}{space 8} {...}
+{c |}{...}
+ {res}-.4552019  .7167213  .1909127  .3400745  -.336388 -.1001434  .3042057 -1.033977  .4213498         .  .0040685  .4933824  .3732427         .  .2871184  .3142697
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 1.627336  1.889441  1.349862  1.484918   1.64259  1.165124  1.423165  2.225149  1.982142         .   1.00549  1.628099  2.030398         .  1.724808  1.407407
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  72.4035  20.37302  3.433736  3.566229  .3259501   21.2347  17.88804  49.10322  34.83394         0  5.984258  .1595712  .0474917         0  9.882645   2.44949
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        4         4         4         4         4         4         4         4         4         4         4         4         4         4         4         4
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} 458.9647  5.398708  20.79205  20.50261  .2914428  152.7892  90.97617  138.0959  107.6361  .0804502  1.027668  .7422705  .6701398  .9312213  53.83064   6.60925
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334        94  83.33333  83.33433  35.64456   462.501  422.7283  264.7551   618.001         1      14.1       2.5  .9998153         1        76        16
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 285.8333        .2  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      375         2  12.22222    12.001      .001  105.3135  26.19148    87.501  59.52481         0        .5        .5  .5082477         1        46         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 442.9348       3.2        18  17.72252      .001   140.001  86.36463  126.6677  93.33434         0  .7466667       .75  .7330413         1        55  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 508.3333       6.3        25    25.001      .001   185.001  133.3343  173.1335    136.58         0      1.12         1  .8827683         1        61         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .9970959  3.805108  2.020226  2.043373  12.55151  1.486314  .9340882  .6884003  2.775486  3.085051   4.56008  1.673647 -.8017805 -3.407822 -.1436983 -.0180572
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.949262  31.43591  8.463163  8.585614  219.8156  6.450219  4.539341  2.473963  15.30972  10.51754  33.58253  11.12548  2.760729  12.61325  2.440355  3.117948
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  113.242  6.213349  13.83809  13.84077  1.628647  71.49941  74.01533  61.11053  82.62138  .2720456  1.113859  .3169194  .2536713  .2531301  10.33595  2.494421
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     2399      2399      2399      2399      2399      2399      2399      2399      2399      2399      2399      2399      2399      2399      2399      2399
+{txt}{hline 9}{c BT}{hline 160}
+
+{ralign 8:caland} {...}
+{c |}{...}
+     train    health    status
+{hline 9}{c +}{hline 30}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} .0804541  4.303554  .1614018
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.084954 -.6831867  1.840702
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 10.51694  3.653888  4.388185
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2720621  .6741485   .367992
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     2026      2026      2026
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} .1111111  4.392954  .1707317
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.474874 -.9222997   1.75015
+{txt}{space 8} {...}
+{c |}{...}
+ {res}    7.125    3.3536  4.063025
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .3146964  .7223559  .3767853
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      369       369       369
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:3} {...}
+{c |}{...}
+ {res}       .5      4.75        .5
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0       4.5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}       .5         5        .5
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0 -1.154701         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1  2.333333         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .5773503        .5  .5773503
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        4         4         4
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} .0858691  4.318049  .1634014
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.956276 -.7187391  1.820773
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 9.739566  3.575277  4.315214
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2802291  .6822938  .3698086
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     2399      2399      2399
+{txt}{hline 9}{c BT}{hline 30}
+
+{com}. tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2012, by(caland) statistics(mean ma mi q sk k sd n)
+
+{txt}Summary statistics: mean, max, min, p25, p50, p75, skewness, kurtosis, sd, N
+  by categories of: caland 
+
+{ralign 8:caland} {...}
+{c |}{...}
+     yield      land     labor    flabor    elabor   fertile   machane        ot   subsidy  insura~s     plots   fstruct       job       sex       age      educ
+{hline 9}{c +}{hline 160}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} 477.4683  3.402516  22.10378  21.83975  .2660292  171.8701  109.7632  147.4658    122.57  .0880503  .9306057   .801362  .6966617  .9210978  54.87078  6.752349
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       9.8  83.33333  83.33433    18.751   462.501  422.7283  264.7551   618.001         1       7.4       2.5         1         1        76        16
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 286.6667        .2  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400       1.7     12.25    12.001      .001  117.1885  33.33433    90.001  66.66766         0      .475        .4   .546578         1        47         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 454.5454         3        18  17.69331      .001   150.001  102.7037  138.0963  105.3343         0     .7375  .6666667  .7752107         1        56         7
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 533.3333       4.5  26.66667  26.31679      .001  205.1292   160.001  193.9545  152.0843         0     1.125         1  .9044282         1        63         9
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .9055921  .9174577  1.907349  1.916496  7.735439  1.208616  .6964598  .4444579  2.394927  2.907524  2.779646  1.368831 -.9525155 -3.124032 -.1862269 -.1098601
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.517073  3.047978  7.244995  7.265998  86.98965  4.483705  3.599418  2.004593  11.70607  9.453695  15.59151  4.643895  3.014435  10.75957   2.37249  3.236982
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 116.7491  2.235997  15.22991  15.29469  1.176098   82.8243  85.99391  65.99688  92.93806  .2834491   .754834  .5579403   .254764  .2696632  10.65489  2.491884
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1749      1749      1749      1749      1749      1749      1749      1749      1749      1749      1749      1749      1749      1749      1749      1749
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} 459.7957  16.75739  10.88333  10.75759  .1277385  163.1636   118.922  142.0772  100.4025  .0369318   2.02415  .7989651  .5499779  .9602273  54.07386  6.517674
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      822        48        30    30.001     6.001   462.501  336.0666  264.7551   300.001         1      14.1       2.5  .9596609         1        76        13
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      290        10  2.222222  1.314131      .001    33.251      .001  64.58434      .001         0       .25         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400      11.6  7.138095  7.014513      .001  127.4408    80.001  95.19545  58.71945         0  .7129121        .4  .3500776         1        48         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 458.0981      14.6  9.400876     9.376      .001  156.7324   120.001   141.401   100.001         0       1.2  .6666667  .5773503         1        55  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      520      19.8  13.76246  13.33433      .001  192.4922  152.8168  181.6793  137.2533         0       2.4         1  .7434626         1        60         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .4633255  1.652362  1.121942  1.137816  7.487833  1.737972  .4027798  .3118152  .4270466   4.91073  2.395415  1.300576  -.282495 -4.710019 -.2053063 -.1895464
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  3.92426  5.964871  4.133323  4.226284  76.38613  9.070803  3.759072  2.177077  3.324135  25.11527  9.691849  4.275502   2.00334  23.18428   2.81725  2.716739
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 89.77202  7.079061  6.049318  5.990632  .4832907  56.61373  55.52883  53.98492  53.50232  .1888629  2.123379  .5691763   .236361   .195703  8.461086  2.508529
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      352       352       352       352       352       352       352       352       352       352       352       352       352       352       352       352
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:3} {...}
+{c |}{...}
+ {res} 407.1443     84.75  3.659765  2.897999  .7637658  125.1247  138.1937  147.3245  45.93896         0  3.470439         1  .3454978         1        48       4.5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 456.0976       123  4.758621  4.311345  2.318073  158.1311  156.2079  218.6189  151.4296         0      9.85         2  .8554789         1        57         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 339.6227        53  2.285714  1.505065      .001  104.3803  114.8878  74.82858   5.12169         0  .7567568        .5  .0581295         1        40         3
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 361.2399      55.5   3.02965  1.753033  .1438571  105.9642  122.0634  99.36762  8.040797         0  1.103378        .5  .1155951         1        43         3
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 416.4286      81.5  3.797361  2.887792  .3679951  118.9936  140.8396  147.9253  13.60228         0    1.6375       .75  .2341913         1      47.5       4.5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 453.0488       114  4.289879  4.042965  1.383674  144.2851   154.324  195.2814  83.83712         0    5.8375       1.5  .5754004         1        53         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res}-.2776279  .1216334 -.4547088  .0111941  1.046592  .5436519 -.2376935 -.0268679   1.14031         .  1.117308  .8164966  .9030455         .   .228619         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 1.374636  1.186377  2.045163  1.184446  2.257546  1.703232  1.352953  1.639055  2.322336         .  2.306058         2  2.144337         .    1.8976         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 55.92278  34.62538   1.02217  1.355338  1.052642  24.87923  19.58587  61.89523  70.47365         0     4.276  .7071068  .3535126         0  7.071068  1.732051
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        4         4         4         4         4         4         4         4         4         4         4         4         4         4         4         4
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} 474.3794  5.790309  20.19244  19.95059  .2438499  170.3254  111.3488  146.5644  118.7175  .0793349  1.118295  .8013387  .6714658   .927791  54.72447  6.708826
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       123  83.33333  83.33433    18.751   462.501  422.7283  264.7551   618.001         1      14.1       2.5         1         1        76        16
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 286.6667        .2  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400         2        11   10.6393      .001   120.001    50.001    90.001    65.001         0        .5        .4   .502722         1        47         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 454.5454       3.5  16.66667    16.001      .001  152.7788  109.4747  138.3343   105.001         0       .78  .6666667  .7390466         1        56         7
+{txt}{space 8} {...}
+{c |}{...}
+ {res}    527.5         7        25    25.001      .001   200.001  156.6677   190.001   151.001         0      1.25         1  .8884704         1        62         9
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .9036479  5.249258  2.015191  2.031874  8.183424  1.290674   .664347  .4454061   2.44113  3.113031  4.115475  1.355566 -.7853706 -3.305528 -.1744279  -.121491
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.701214  60.54435  7.969382  8.024507  98.26581  4.943833   3.76868  2.068072  12.61672  10.69096  27.81851  4.571215  2.646892  11.92651  2.452182  3.148363
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 112.8055  7.137097  14.72633  14.76464  1.092195  79.05182  81.68056  64.14292  87.97245   .270325   1.19528  .5598742  .2581081  .2588952  10.32021  2.495968
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     2105      2105      2105      2105      2105      2105      2105      2105      2105      2105      2105      2105      2105      2105      2105      2105
+{txt}{hline 9}{c BT}{hline 160}
+
+{ralign 8:caland} {...}
+{c |}{...}
+     train    health    status
+{hline 9}{c +}{hline 30}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} .0566038  4.262436  .1989708
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.837534 -1.050808  1.508064
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 15.72667  5.313976  3.274256
+{txt}{space 8} {...}
+{c |}{...}
+ {res}   .23115  .7296209  .3993402
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1749      1749      1749
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} .1164773  4.411932  .2159091
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.391066 -1.160554   1.38092
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 6.717199  4.273186  2.906941
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  .321253  .7496816  .4120372
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      352       352       352
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:3} {...}
+{c |}{...}
+ {res}      .25      4.25         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}       .5       4.5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 1.154701  1.154701         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.333333  2.333333         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res}       .5        .5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        4         4         4
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} .0669834  4.287411  .2014252
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.464227 -1.055371   1.48891
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 13.00087   5.08307  3.216853
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2500526  .7345094  .4011602
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     2105      2105      2105
+{txt}{hline 9}{c BT}{hline 30}
+
+{com}. tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2013, by(caland) statistics(mean ma mi q sk k sd n)
+
+{txt}Summary statistics: mean, max, min, p25, p50, p75, skewness, kurtosis, sd, N
+  by categories of: caland 
+
+{ralign 8:caland} {...}
+{c |}{...}
+     yield      land     labor    flabor    elabor   fertile   machane        ot   subsidy  insura~s     plots   fstruct       job       sex       age      educ
+{hline 9}{c +}{hline 160}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} 475.1024  3.281076  20.96445  20.66585  .3006036  168.5182  121.4019  151.3469  137.7456  .1189873  .8362624   .710894  .7317944         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       9.9  83.33333  83.33433    50.001   462.501  422.7283  264.7551   618.001         1       8.5       2.5         1         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      286        .1  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 393.7197      1.55        12    12.001      .001  114.2867    40.001  93.91767  76.43282         0        .4        .5  .6102377         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 461.5385       2.9  17.15476  16.98585      .001   150.001  117.8822   143.876  115.0936         0  .6666667  .6666667  .8076584         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 533.3333       4.3        25    25.001      .001   200.001   174.483  203.2302  177.9177         0         1         1  .9218681         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .8100869   .923934  1.995936  2.004467  16.39456  1.368612  .7736436  .3618927  2.096601  2.353574  4.323334  1.409151 -1.157685         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.441673  3.159761  8.085851  8.161603  325.2482  5.243866  3.507316  1.915025  9.027098  6.539313  32.55516   9.95083  3.583141         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 120.6862  2.134951  14.02001  14.05583  2.118981  83.88294  96.56426  65.86611  103.8298  .3238761  .7659905  .3182134  .2418629         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1580      1580      1580      1580      1580      1580      1580      1580      1580      1580      1580      1580      1580      1580      1580      1580
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} 460.0899  17.28312   10.1305  9.950443  .1820587  157.4451  126.1248  153.0221  108.9914  .1401274  1.950061  .7573845  .5714165         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      824        46        70    70.001  13.63736   462.501  415.2552  264.7551   618.001         1      14.1       2.5  .9783474         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      288        10  2.222222  1.892892      .001  43.89413      .001  64.58434      .001         0  .1818182         0         0         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400      11.3  6.140351     6.001      .001  122.8581  88.46254    98.001  53.69148         0        .7        .5  .3708228         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}   457.41      14.8  9.016129  8.965299      .001   151.001   120.001  155.4677  100.7353         0       1.1       .75  .6311418         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 516.6667        21        12  11.76571      .001   187.101  156.9902  204.4454  155.4296         0  2.333333         1  .7563943         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  .543563  1.403279  3.223168  3.325185   11.3433  1.678205  .6852831  .1521291  2.398596  2.073482  2.439466  1.693494 -.4176275         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.692638  4.696842   26.5078  28.13841  158.6022  10.73025  4.691565   1.73617  16.23105  5.299327  10.27347  11.24081  2.095071         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 89.87883  7.661126  6.438756  6.342292  .9080858  50.44418  62.64274  58.75629   73.9485  .3476732  2.067774  .3112112  .2407093         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      314       314       314       314       314       314       314       314       314       314       314       314       314       314       314       314
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:3} {...}
+{c |}{...}
+ {res} 432.6354  73.13333  5.029737  3.700447   1.33129  140.5679  132.4832   164.983  41.72292  .1666667   5.64696  .8333333  .2426482         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 520.3333       116  7.894737     5.001  3.290474  197.3694  169.3114  233.8192  151.4296         1    11.875         1   .729358         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 339.6227        53  2.222222  2.223222      .001  107.5482  94.91009  109.3343  5.817667         0  .7567568        .5  .0593591         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 365.9575        55  3.773585  2.414793      .001  121.5542  108.5536   122.001   14.6885         0       1.5  .6666667  .0823943         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 448.1074      60.4  5.227273  3.978701   1.05403  132.3465  131.0614  152.4144  18.63195         0      4.95  .9166667  .0942702         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 473.6842        94  5.833333  4.606263  2.587207  152.2424   160.001  219.9148  41.13784         0      9.85         1  .3962375         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}-.2452694  .8863799  .0000245 -.3323685    .40956  .9837758  .0140572   .241867   1.61822  1.788854  .1471815  -.649519   1.13975         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 1.781125   2.10343  2.323011  1.533365  1.667183  2.863346  1.367938   1.32869  3.870471       4.2  1.230622     1.875  2.694227         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 67.79314  25.81369  1.923299  1.147625   1.35686  31.51124  30.41421  54.11371  55.00625  .4082483  4.918982  .2108185  .2697424         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        6         6         6         6         6         6         6         6         6         6         6         6         6         6         6         6
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} 472.4873  5.815684  19.12368  18.84141  .2842673  166.5999  122.2174  151.6668  132.6903  .1226316  1.035524  .7189638  .7037452         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       116  83.33333  83.33433    50.001   462.501  422.7283  264.7551   618.001         1      14.1       2.5         1         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      286        .1  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      395       1.9        10    10.001      .001  116.8022  57.64219    95.001  70.60281         0       .45        .5  .5632456         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 461.5385       3.5  15.50505  15.15252      .001   150.001  118.6943  144.5309  111.3608         0  .7113248  .6666667  .7730057         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 527.7778       6.5  23.33333   23.0612      .001   198.126  170.5635  203.5195  173.0206         0       1.1         1  .9067732         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .8247493   4.70881  2.074388  2.091208  17.17606  1.460624  .7728343  .3336119  2.172387   2.30093  4.465646  1.441155 -.9679304         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.614276  44.48967  8.674894  8.786242   363.911  5.847563  3.736966  1.903167  9.786442  6.294278  30.24684  10.11691     3.045         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 116.1486  7.524986  13.67849  13.69206  1.969679  79.32051  91.68421  64.69136  100.0677  .3281002  1.222633  .3172014  .2502072         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1900      1900      1900      1900      1900      1900      1900      1900      1900      1900      1900      1900      1900      1900      1900      1900
+{txt}{hline 9}{c BT}{hline 160}
+
+{ralign 8:caland} {...}
+{c |}{...}
+     train    health    status
+{hline 9}{c +}{hline 30}
+{ralign 8:1} {...}
+{c |}{...}
+ {res}        0         4  .1556962
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  1.899256
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  4.607172
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0  .3626819
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1580      1580      1580
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:2} {...}
+{c |}{...}
+ {res}        0         4  .1910828
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  1.571481
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  3.469554
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0  .3937817
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      314       314       314
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:3} {...}
+{c |}{...}
+ {res}        0         4  .3333333
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  .7071068
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .       1.5
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0  .5163978
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        6         6         6
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res}        0         4  .1621053
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  1.833657
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  4.362299
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0  .3686444
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1900      1900      1900
+{txt}{hline 9}{c BT}{hline 30}
+
+{com}. tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2014, by(caland) statistics(mean ma mi q sk k sd n)
+
+{txt}Summary statistics: mean, max, min, p25, p50, p75, skewness, kurtosis, sd, N
+  by categories of: caland 
+
+{ralign 8:caland} {...}
+{c |}{...}
+     yield      land     labor    flabor    elabor   fertile   machane        ot   subsidy  insura~s     plots   fstruct       job       sex       age      educ
+{hline 9}{c +}{hline 160}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} 483.3248   3.40092  20.34982  20.16369  .1881364  170.1918  136.9194  156.5938   136.726  .1604208  .9043621  .7124761  .7506635  .9316239  55.95726  6.664195
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334       9.9  83.33333  83.33433    18.751   462.501  422.7283  264.7551   618.001         1       8.5       2.5         1         1        76        15
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 291.1393        .2  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400       1.6    11.875    11.601      .001  113.5145  55.33433  101.0427    69.001         0      .425        .5  .6399071         1        48         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 471.2644       2.9  16.66667  16.66767      .001   150.001  136.5395  147.2737  114.2867         0        .7  .6666667  .8321604         1        58         7
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 544.4445       4.8        25    25.001      .001  203.7047   200.001  207.3343  170.8706         0  1.066667         1  .9311332         1        64         9
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .7968929  .9263728  1.976534  1.962112  12.22406   1.18766  .5173433  .2980593  2.278115  1.850589  4.102255  1.170381 -1.262405 -3.420292 -.3321168 -.2107548
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.445979  2.976249  8.291249  8.221497  222.6454   4.58488  2.964821  1.878301  9.288153  4.424679  28.39566  8.967395  3.904744  12.69839  2.456641  3.051614
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 115.9936  2.291974  13.53134  13.59354  .8536173  84.78069  102.2663  66.01145  114.1882  .3671165  .8690356  .3105611  .2343499  .2524731    10.586   2.65083
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1521      1521      1521      1521      1521      1521      1521      1521      1521      1521      1521      1521      1521      1521      1521      1521
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} 478.3823  17.28362  10.34931  10.23974  .1115755  153.7799  139.3529  155.0719  101.8165  .2160279  1.962151  .7589956  .5438685  .9616725   54.8885    6.4144
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 794.1177        47    34.375    34.376     3.126   462.501  394.1677  264.7551   285.901         1      14.1       2.5  .9497518         1        76        13
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 291.6667        10  2.222222  2.167667      .001    33.251      .001  64.58434      .001         0      .225         0   .022865         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 407.6923        12  5.952381  5.807452      .001  120.7557  100.4912  102.5651  51.05628         0  .7444444        .5  .3454274         1        49         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 477.2727      14.6  9.929078  9.286715      .001  146.4716  133.0837  153.8564  96.63258         0      1.18       .75  .5717458         1        55         7
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 542.1053        20  13.33333  13.33433      .001  186.6677    171.58   204.001  143.4296         0  2.428571         1  .7641509         1        62         8
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .4611051   1.58583   1.07217  1.104742  5.072054  1.320768  .5199417  .1056129  .4015169  1.380068   2.61488  2.348197 -.2303537 -4.809445 -.3723364 -.2717427
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.267862  5.324619  4.431485  4.511766  34.85195  7.948344  4.215274  1.847865  2.609521  2.904588  11.73264  13.76541  1.853742  24.13076  2.774588  2.739184
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 95.42723   7.65982  6.125878  6.101062  .3543469  51.73389   62.1321  59.55778  58.71644  .4122523  2.012391  .3338366  .2486772  .1923211  8.893392  2.667441
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      287       287       287       287       287       287       287       287       287       287       287       287       287       287       287       287
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:3} {...}
+{c |}{...}
+ {res} 500.6696    70.475  13.38628   12.6337  .7545821  117.7074  156.2517  157.7744  28.18535      .375  5.149673     .9125  .2671901         1    51.875     4.625
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 757.5757     118.5   75.6579  74.34311  1.773152   175.001  258.4626  253.9251  89.73668         1    11.875       1.5  .7230124         1        65         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 339.6227        52       2.8     2.051      .001  78.78888  106.3301  82.05656  6.463963         0  .7567568        .5  .0501466         1        42         3
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 428.8165      53.5  3.780732  3.117335  .1933077  106.1304  115.6681  114.4538  12.34386         0  1.495313  .7333333  .1228081         1      48.5         3
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 480.6723     60.15  4.590647  3.781732  .6908148  112.7899  150.7822  145.4024  16.78982         0    3.7125  .9166667   .205788         1      50.5         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 544.5907        83  5.944801  5.438678   1.24713  125.0143  176.1601  203.2504  35.50739         1     9.075         1  .3535849         1        55         6
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .9402007  1.171944  2.258523  2.257759  .2401714  .9463352  .9682368  .3677565  1.623386  .5163978  .3912881   .686551  1.185641         .  .6813914 -.2719209
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.405288  2.724641  6.119439  6.117493  1.883649  3.838583  3.050176  1.906768  4.448504  1.266667  1.532729  3.189985  3.473484         .  2.765124  1.316533
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  125.274  24.87206  25.18735  24.96208  .6346745  27.32977  50.51393  59.19313  27.12899  .5175492  4.393665  .2970423  .2165671         0  7.059694  1.407886
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        8         8         8         8         8         8         8         8         8         8         8         8         8         8         8         8
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} 482.6201  5.890419  18.73867  18.56214  .1785321  167.3668  137.3892  156.3585  130.7307  .1701542  1.090237  .7207092  .7158518   .936674  55.77037  6.615735
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3334     118.5  83.33333  83.33433    18.751   462.501  422.7283  264.7551   618.001         1      14.1       2.5         1         1        76        15
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 291.1393        .2  2.222222      .001      .001    33.251      .001  64.58434      .001         0         0         0         0         0        31         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400       1.9        10    10.001      .001   114.649  70.04448  101.8447  64.85292         0  .4666667        .5  .5708249         1        48         5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 473.2057       3.4  15.31973    15.001      .001   150.001  135.4513  149.2813  108.3984         0       .75  .6666667  .7948112         1        57         7
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  543.657         7  23.33333  23.33433      .001   200.001   195.001  206.2655   162.353         0       1.2         1  .9165531         1        63         9
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .7763608  5.019817  2.041983  2.033562  12.72302  1.276249  .5232306   .277246  2.373051  1.755581  4.255158  1.391479 -1.008381 -3.585932  -.320389 -.2144343
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.499144  48.34947  8.819728  8.763206  247.2254  5.065279  3.192696  1.888014  10.26957  4.082066  28.26281  9.999812  3.075701  13.85891  2.507982  2.999285
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 112.9949  7.754693   13.2336  13.27689  .7961266  80.56593  96.84556  64.97721  108.0483  .3758717  1.251744  .3148402  .2499977  .2436155  10.33071  2.653199
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1816      1816      1816      1816      1816      1816      1816      1816      1816      1816      1816      1816      1816      1816      1816      1816
+{txt}{hline 9}{c BT}{hline 160}
+
+{ralign 8:caland} {...}
+{c |}{...}
+     train    health    status
+{hline 9}{c +}{hline 30}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} .0716634  4.274162  .1663379
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.321344 -.9893605  1.792034
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 12.03132  4.709481  4.211385
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2580145  .7428052  .3725062
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1521      1521      1521
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} .0592334  4.348432  .1602787
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.734343 -1.194759  1.852026
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 14.94532  4.558607  4.430002
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2364734  .8046126  .3675052
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      287       287       287
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:3} {...}
+{c |}{...}
+ {res}      .25     4.625       .25
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}       .5         5        .5
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 1.154701 -.5163978  1.154701
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.333333  1.266667  2.333333
+{txt}{space 8} {...}
+{c |}{...}
+ {res}   .46291  .5175492    .46291
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        8         8         8
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} .0704846  4.287445  .1657489
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        1         5         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         1         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         5         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 3.356088 -1.023498  1.797749
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 12.26333   4.67131  4.231902
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2560324  .7525727  .3719575
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1816      1816      1816
+{txt}{hline 9}{c BT}{hline 30}
+
+{com}. tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance plots fstruct job sex age educ train health status if year==2015, by(caland) statistics(mean ma mi q sk k sd n)
+
+{txt}Summary statistics: mean, max, min, p25, p50, p75, skewness, kurtosis, sd, N
+  by categories of: caland 
+
+{ralign 8:caland} {...}
+{c |}{...}
+     yield      land     labor    flabor    elabor   fertile   machane        ot   subsidy  insura~s     plots   fstruct       job       sex       age      educ
+{hline 9}{c +}{hline 160}
+{ralign 8:1} {...}
+{c |}{...}
+ {res} 494.9413  3.212708  21.16516  20.99759  .1695684  175.5148  135.2396  162.2348  123.1769  .1860817  .9133537  .6966437  .7364216         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3333       9.9  83.33333  83.33433  8.572429   462.501  422.7283  264.7551   618.001         1         9       2.5         1         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}    287.5        .1  2.222222  .5905693      .001    33.251      .001  64.58434      .001         0         0         0         0         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400       1.5        12    12.001      .001  118.1828    40.001  104.3343    65.001         0  .4363637        .5  .6117678         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 491.4545       2.5  16.66667  16.66767      .001   160.001  133.3343  153.9747  100.4158         0        .7  .6666667  .8129504         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 571.4286       4.2        25    25.001      .001  216.6677   200.001   219.501   157.501         0  1.071429         1    .92572         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  .646658  1.046141   2.00184  2.007416  6.052442  1.026468  .5068246  .1801715  2.459718   1.61326   4.27351  1.128986 -1.232813         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.987324  3.274771  7.859185  7.886778  52.26238  4.087497  2.789196  1.749428  11.08541  3.602608  29.69336  8.628523  3.848793         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 117.5365  2.230082  14.60032  14.60302  .6397452  85.52967   104.348  67.26272   105.567  .3893199  .9000379   .315845  .2441725         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1322      1322      1322      1322      1322      1322      1322      1322      1322      1322      1322      1322      1322      1322      1322      1322
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:2} {...}
+{c |}{...}
+ {res} 491.9964   16.2805   10.6996  10.53906  .1625343  156.8501  138.0811  157.0941   83.1093  .2738589  1.880245  .7320358  .5512434         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      800      49.5  59.16667  59.16767    10.001   462.501  365.8344  264.7551  213.0938         1    11.875       1.5  .9456562         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      288        10  2.222222     1.626      .001    33.251      .001  64.58434      .001         0      .225         0  .0486752         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400      11.5  6.428571  6.403439      .001  119.2671  101.8529  98.26187  40.91767         0  .7142857        .5  .3386488         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 480.6803      13.5        10  9.539462      .001   150.001  133.5494  142.4625    83.801         0      1.12       .75   .578089         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      575        18  13.10345  13.10445      .001  186.6677  167.2629   209.501  119.3517         1         2         1  .7734481         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .2355525  1.980293  2.294961  2.303521  11.26572  1.320169  .5903569  .2795057  .1742113  1.014228  2.550424 -.1925307 -.2722815         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.443548  7.297006  15.85041  15.86997  151.4453  6.899403  4.066681  1.820811   2.12668  2.028658  9.958792   3.07093  1.825703         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 106.0485  7.410212  6.385261  6.406281  .7147203  57.05768  60.29083  65.20101  47.98445  .4468655  2.076339  .2564852  .2490312         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      241       241       241       241       241       241       241       241       241       241       241       241       241       241       241       241
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:3} {...}
+{c |}{...}
+ {res} 553.7005  106.0714  10.45933  9.642712  .8186206  153.6086  132.5123  174.3085  38.52829  .2857143  45.04536   .752381  .2479727         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      600       227  51.77665  49.84872  1.929934   210.001   185.957  242.7421   159.496         1       297       1.5  .7008891         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 470.0508        52  2.222222  .9016364      .001  110.1332  97.30869  114.5384  4.149649         0       .75        .5  .0322488         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 470.6044        54  2.472528  1.649352      .001  120.1091  98.18282  129.8118  9.659444         0        .8        .5  .0947331         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 576.0185        74  3.888889     3.001  .8251758  142.7895  136.6677  180.6933    14.126         0      1.85        .6  .2374468         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      596       182  5.945946  5.298297  1.322586  206.1121  161.9299  220.7465    45.521         1      9.85         1  .2743964         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}-.8640018  .8987276  2.021435  2.013653  .2202659  .5536619  .2803795  .1261753  1.805162  .9486833  2.037722  1.303734  1.305085         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  1.86435  2.146786  5.122576  5.106347  2.086206  1.763105  1.675227  1.590675   4.60266       1.9  5.158865  3.248463  3.716451         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 57.70494  70.37781  18.26212  17.78685  .6937654  39.79881  34.92238  48.44541  55.02942    .48795  111.1477  .3745897  .2202959         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        7         7         7         7         7         7         7         7         7         7         7         7         7         7         7         7
+{txt}{hline 9}{c +}{hline 160}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res} 494.7512  5.677261  19.51093  19.34155  .1713825   172.552  135.6636  161.4995   116.649        .2  1.258541   .702325  .7058183         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 833.3333       227  83.33333  83.33433    10.001   462.501  422.7283  264.7551   618.001         1       297       2.5         1         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}    287.5        .1  2.222222  .5905693      .001    33.251      .001  64.58434      .001         0         0         0         0         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      400       1.7  10.64516    10.501      .001  118.8821    60.001  103.3343   58.4137         0  .4677419        .5  .5646895         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 491.1335         3        15    15.001      .001  157.3224  133.3343   152.501    96.551         0       .75  .6666667  .7832279         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      575       6.5        24  23.68521      .001  208.3343   200.001  217.6677   150.001         0       1.2         1  .9100479         0  54.70027  6.644279
+{txt}{space 8} {...}
+{c |}{...}
+ {res} .5955827  12.07352  2.084815  2.088746  7.050022  1.107282  .5178152  .1945416  2.584973       1.5  38.03974  1.002505 -1.002792         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res} 2.946637  228.5288  8.462913  8.489934  73.51479  4.451789  3.021199  1.760506  12.33648      3.25  1486.075  8.230353  3.107082         .         .         .
+{txt}{space 8} {...}
+{c |}{...}
+ {res}  115.676  9.943905  14.19802  14.20075  .6530277  81.91432  98.63684  66.87731  99.91289  .4001274  7.569492  .3078364  .2554658         0         0         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1570      1570      1570      1570      1570      1570      1570      1570      1570      1570      1570      1570      1570      1570      1570      1570
+{txt}{hline 9}{c BT}{hline 160}
+
+{ralign 8:caland} {...}
+{c |}{...}
+     train    health    status
+{hline 9}{c +}{hline 30}
+{ralign 8:1} {...}
+{c |}{...}
+ {res}        0         4  .1633888
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  1.820898
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  4.315669
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0  .3698599
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1322      1322      1322
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:2} {...}
+{c |}{...}
+ {res}        0         4  .1784232
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  1.679828
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  3.821823
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0  .3836654
+{txt}{space 8} {...}
+{c |}{...}
+ {res}      241       241       241
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:3} {...}
+{c |}{...}
+ {res}        0         4  .2857143
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  .9486833
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .       1.9
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0    .48795
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        7         7         7
+{txt}{hline 9}{c +}{hline 30}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res}        0         4   .166242
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         1
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         4         0
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  1.792962
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        .         .  4.214715
+{txt}{space 8} {...}
+{c |}{...}
+ {res}        0         0  .3724164
+{txt}{space 8} {...}
+{c |}{...}
+ {res}     1570      1570      1570
+{txt}{hline 9}{c BT}{hline 30}
+
+{com}. 
+. **方差分析
+. oneway yield caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}    yield
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 477.57636
+  {txt}        2 {c |}  {res} 461.65896
+  {txt}        3 {c |}  {res} 476.01268
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 475.03047
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 332623.804      2   166311.902     12.68     0.0000
+{txt} Within groups     {res}  128326648   9787   13111.9493
+{txt}{hline 72}
+    Total          {res}  128659272   9789   13143.2498
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}117.5326{txt}  Prob>chi2 = {res}0.000
+
+                        {txt}Comparison of yield by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res}-15.9174
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res}-1.56368    14.3537
+         {txt}{c |}  {res}    1.000      1.000
+{txt}
+{com}. //oneway income cland, mean bonferroni 
+. //oneway profit cland, mean bonferroni 
+. oneway labor caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}   laboro,
+            {c |} Winsorized
+            {c |}  fraction
+            {c |}     .01
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 21.486325
+  {txt}        2 {c |}  {res} 10.869269
+  {txt}        3 {c |}  {res} 8.5597543
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 19.752992
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 151616.584      2   75808.2918    421.79     0.0000
+{txt} Within groups     {res} 1759024.03   9787   179.730667
+{txt}{hline 72}
+    Total          {res} 1910640.62   9789   195.182411
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res} 1.2e+03{txt}  Prob>chi2 = {res}0.000
+
+           {txt}Comparison of laboro, Winsorized fraction .01 by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res}-10.6171
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res}-12.9266   -2.30951
+         {txt}{c |}  {res}    0.000      1.000
+{txt}
+{com}. oneway flabor caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}   flabor
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 21.238479
+  {txt}        2 {c |}  {res} 10.696498
+  {txt}        3 {c |}  {res} 7.7181194
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 19.515373
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 149935.216      2   74967.6078    415.52     0.0000
+{txt} Within groups     {res} 1765757.62   9787    180.41868
+{txt}{hline 72}
+    Total          {res} 1915692.84   9789   195.698523
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res} 1.2e+03{txt}  Prob>chi2 = {res}0.000
+
+                        {txt}Comparison of flabor by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} -10.542
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res}-13.5204   -2.97838
+         {txt}{c |}  {res}    0.000      0.710
+{txt}
+{com}. oneway elabor caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}   elabor
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} .24984576
+  {txt}        2 {c |}  {res} .17477108
+  {txt}        3 {c |}  {res} .84363488
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} .23961881
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 18.0104316      2   9.00521582      4.88     0.0076
+{txt} Within groups     {res}  18063.759   9787   1.84568908
+{txt}{hline 72}
+    Total          {res} 18081.7694   9789   1.84715185
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}103.2796{txt}  Prob>chi2 = {res}0.000
+
+                        {txt}Comparison of elabor by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res}-.075075
+         {txt}{c |}  {res}    0.136
+         {txt}{c |}
+       3 {c |}   {res} .593789    .668864
+         {txt}{c |}  {res}    0.056      0.026
+{txt}
+{com}. oneway machane caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}   machane
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 115.81564
+  {txt}        2 {c |}  {res} 124.13202
+  {txt}        3 {c |}  {res} 133.43291
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 117.19556
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 98459.2441      2    49229.622      6.15     0.0021
+{txt} Within groups     {res} 78371943.9   9787   8007.75967
+{txt}{hline 72}
+    Total          {res} 78470403.2   9789   8016.18175
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}435.9186{txt}  Prob>chi2 = {res}0.000
+
+                       {txt}Comparison of machane by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} 8.31638
+         {txt}{c |}  {res}    0.002
+         {txt}{c |}
+       3 {c |}   {res} 17.6173    9.30089
+         {txt}{c |}  {res}    0.870      1.000
+{txt}
+{com}. oneway ot caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}     ot
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 150.62953
+  {txt}        2 {c |}  {res} 144.59911
+  {txt}        3 {c |}  {res} 158.93127
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 149.69135
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 50221.7578      2   25110.8789      6.02     0.0024
+{txt} Within groups     {res} 40839533.2   9787    4172.8347
+{txt}{hline 72}
+    Total          {res}   40889755   9789   4177.11257
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res} 65.4665{txt}  Prob>chi2 = {res}0.000
+
+                          {txt}Comparison of ot by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res}-6.03043
+         {txt}{c |}  {res}    0.002
+         {txt}{c |}
+       3 {c |}   {res} 8.30173    14.3322
+         {txt}{c |}  {res}    1.000      0.709
+{txt}
+{com}. oneway subsidy caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}   subsidy
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res}  125.0348
+  {txt}        2 {c |}  {res} 98.937556
+  {txt}        3 {c |}  {res} 38.007156
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 120.61051
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 1092514.42      2   546257.208     60.53     0.0000
+{txt} Within groups     {res} 88326878.5   9787   9024.91862
+{txt}{hline 72}
+    Total          {res} 89419392.9   9789   9134.68106
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}528.4370{txt}  Prob>chi2 = {res}0.000
+
+                       {txt}Comparison of subsidy by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res}-26.0972
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res}-87.0276   -60.9304
+         {txt}{c |}  {res}    0.000      0.002
+{txt}
+{com}. oneway insurance caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |} insurances
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} .12381069
+  {txt}        2 {c |}  {res} .12476008
+  {txt}        3 {c |}  {res} .20689655
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} .12420838
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} .200055011      2   .100027505      0.92     0.3988
+{txt} Within groups     {res} 1064.76256   9787   .108793559
+{txt}{hline 72}
+    Total          {res} 1064.96261   9789   .108791768
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}  3.2760{txt}  Prob>chi2 = {res}0.194
+
+                      {txt}Comparison of insurances by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} .000949
+         {txt}{c |}  {res}    1.000
+         {txt}{c |}
+       3 {c |}   {res} .083086    .082136
+         {txt}{c |}  {res}    0.527      0.552
+{txt}
+{com}. oneway plots caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}    plots
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} .88715517
+  {txt}        2 {c |}  {res} 1.9448407
+  {txt}        3 {c |}  {res}  14.82687
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 1.0973098
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 6951.30478      2   3475.65239    359.30     0.0000
+{txt} Within groups     {res} 94672.3924   9787   9.67328011
+{txt}{hline 72}
+    Total          {res} 101623.697   9789   10.3814176
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res} 2.4e+04{txt}  Prob>chi2 = {res}0.000
+
+                        {txt}Comparison of plots by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} 1.05769
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res} 13.9397     12.882
+         {txt}{c |}  {res}    0.000      0.000
+{txt}
+{com}. oneway fstruct caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}  fstructs,
+            {c |} Winsorized
+            {c |}  fraction
+            {c |}     .01
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} .73470526
+  {txt}        2 {c |}  {res} .76594187
+  {txt}        3 {c |}  {res} .85287357
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} .74004231
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 1.65114887      2   .825574437      5.65     0.0035
+{txt} Within groups     {res} 1430.05985   9787   .146118304
+{txt}{hline 72}
+    Total          {res} 1431.71099   9789   .146257125
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}  1.0004{txt}  Prob>chi2 = {res}0.606
+
+          {txt}Comparison of fstructs, Winsorized fraction .01 by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} .031237
+         {txt}{c |}  {res}    0.009
+         {txt}{c |}
+       3 {c |}   {res} .118168    .086932
+         {txt}{c |}  {res}    0.290      0.675
+{txt}
+{com}. oneway job caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}     job
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res}  .7179532
+  {txt}        2 {c |}  {res} .55869536
+  {txt}        3 {c |}  {res} .25232269
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} .69114796
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 38.8956833      2   19.4478417    320.47     0.0000
+{txt} Within groups     {res} 593.920456   9787   .060684628
+{txt}{hline 72}
+    Total          {res} 632.816139   9789   .064645637
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}  3.1274{txt}  Prob>chi2 = {res}0.209
+
+                         {txt}Comparison of job by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res}-.159258
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res}-.465631   -.306373
+         {txt}{c |}  {res}    0.000      0.000
+{txt}
+{com}. oneway sex caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}     sex
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} .59856062
+  {txt}        2 {c |}  {res} .61740243
+  {txt}        3 {c |}  {res} .55172414
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} .60143003
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} .537896538      2   .268948269      1.12     0.3257
+{txt} Within groups     {res} 2346.24208   9787   .239730467
+{txt}{hline 72}
+    Total          {res} 2346.77998   9789   .239736437
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}  0.2409{txt}  Prob>chi2 = {res}0.887
+
+                         {txt}Comparison of sex by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} .018842
+         {txt}{c |}  {res}    0.490
+         {txt}{c |}
+       3 {c |}   {res}-.046836   -.065678
+         {txt}{c |}  {res}    1.000      1.000
+{txt}
+{com}. oneway age caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}    agee,
+            {c |} Winsorized
+            {c |}  fraction
+            {c |}     .01
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 54.792129
+  {txt}        2 {c |}  {res}  54.20451
+  {txt}        3 {c |}  {res}  52.27943
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 54.690871
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 622.416188      2   311.208094      4.50     0.0112
+{txt} Within groups     {res} 677247.878   9787   69.1987206
+{txt}{hline 72}
+    Total          {res} 677870.294   9789   69.2481657
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res} 80.0352{txt}  Prob>chi2 = {res}0.000
+
+            {txt}Comparison of agee, Winsorized fraction .01 by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} -.58762
+         {txt}{c |}  {res}    0.032
+         {txt}{c |}
+       3 {c |}   {res} -2.5127   -1.92508
+         {txt}{c |}  {res}    0.313      0.651
+{txt}
+{com}. oneway educ caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}    educ
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 6.6815279
+  {txt}        2 {c |}  {res} 6.4689382
+  {txt}        3 {c |}  {res} 5.5646768
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res}  6.644279
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 93.2286942      2   46.6143471     11.20     0.0000
+{txt} Within groups     {res} 40724.8966   9787   4.16112155
+{txt}{hline 72}
+    Total          {res} 40818.1253   9789   4.16979521
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}  4.2344{txt}  Prob>chi2 = {res}0.120
+
+                         {txt}Comparison of educ by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} -.21259
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res}-1.11685   -.904261
+         {txt}{c |}  {res}    0.010      0.054
+{txt}
+{com}. oneway train caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}    train
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} .04525494
+  {txt}        2 {c |}  {res} .06333973
+  {txt}        3 {c |}  {res} .17241379
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res}  .0485189
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} .875809192      2   .437904596      9.50     0.0001
+{txt} Within groups     {res} 451.077715   9787   .046089477
+{txt}{hline 72}
+    Total          {res} 451.953524   9789   .046169529
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res} 99.7692{txt}  Prob>chi2 = {res}0.000
+
+                        {txt}Comparison of train by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} .018085
+         {txt}{c |}  {res}    0.007
+         {txt}{c |}
+       3 {c |}   {res} .127159    .109074
+         {txt}{c |}  {res}    0.004      0.020
+{txt}
+{com}. oneway health caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}   health
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} 4.1818736
+  {txt}        2 {c |}  {res} 4.2495202
+  {txt}        3 {c |}  {res} 4.3103448
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} 4.1930541
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} 6.40722356      2   3.20361178      9.02     0.0001
+{txt} Within groups     {res} 3474.72046   9787   .355034276
+{txt}{hline 72}
+    Total          {res} 3481.12768   9789   .355616271
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res} 17.8218{txt}  Prob>chi2 = {res}0.000
+
+                        {txt}Comparison of health by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} .067647
+         {txt}{c |}  {res}    0.000
+         {txt}{c |}
+       3 {c |}   {res} .128471    .060825
+         {txt}{c |}  {res}    0.739      1.000
+{txt}
+{com}. oneway status caland, mean bonferroni 
+
+            {txt}{c |} Summary of
+            {c |}   status
+     caland {c |}        Mean
+{hline 12}{c +}{hline 12}
+          1 {c |}  {res} .16955355
+  {txt}        2 {c |}  {res} .18426104
+  {txt}        3 {c |}  {res} .27586207
+{txt}{hline 12}{c +}{hline 12}
+      Total {c |}  {res} .17221655
+
+                        {txt}Analysis of Variance
+    Source              SS         df      MS            F     Prob > F
+{hline 72}
+Between groups     {res} .596409982      2   .298204991      2.09     0.1235
+{txt} Within groups     {res} 1395.04649   9787   .142540767
+{txt}{hline 72}
+    Total          {res}  1395.6429   9789   .142572571
+
+{txt}Bartlett's test for equal variances:  chi2({res}2{txt}) = {res}  5.0724{txt}  Prob>chi2 = {res}0.079
+
+                        {txt}Comparison of status by caland
+                                (Bonferroni)
+Row Mean-{c |}
+Col Mean {c |}          1          2
+{hline 9}{c +}{hline 22}
+       2 {c |}   {res} .014707
+         {txt}{c |}  {res}    0.474
+         {txt}{c |}
+       3 {c |}   {res} .106309    .091601
+         {txt}{c |}  {res}    0.390      0.586
+{txt}
+{com}. 
+. ***生成交叉项
+. g lnyield = ln(yield)
+{txt}
+{com}. g lnland = ln(land)
+{txt}
+{com}. g lnlabor = ln(labor)
+{txt}
+{com}. g lnflabor = ln(flabor)
+{txt}
+{com}. g lnelabor = ln(elabor)
+{txt}
+{com}. g lnfertile = ln(fertile)
+{txt}
+{com}. g lnmachane = ln(machane)
+{txt}
+{com}. g lnot = ln(ot)
+{txt}
+{com}. g lnsubsidy = ln(subsidy)
+{txt}
+{com}. g lninsurance = ln(insurance)
+{txt}(8,574 missing values generated)
+
+{com}. g lnland2 = lnland^2
+{txt}
+{com}. g lnlabor2 = lnlabor^2
+{txt}
+{com}. g lnflabor2 = lnflabor^2
+{txt}
+{com}. g lnelabor2 = lnelabor^2
+{txt}
+{com}. g lnfertile2 = lnfertile^2
+{txt}
+{com}. g lnmachane2 = lnmachane^2
+{txt}
+{com}. g lnot2 = lnot^2
+{txt}
+{com}. g lnlaborlnfertile = lnlabor*lnfertile
+{txt}
+{com}. g lnlaborlnmachane = lnlabor*lnmachane
+{txt}
+{com}. g lnlaborlnot = lnlabor*lnot
+{txt}
+{com}. g lnflaborlnelabor = lnflabor*lnelabor
+{txt}
+{com}. g lnflaborlnfertile = lnflabor*lnfertile
+{txt}
+{com}. g lnflaborlnmachane = lnflabor*lnmachane
+{txt}
+{com}. g lnflaborlnot = lnflabor*lnot
+{txt}
+{com}. g lnelaborlnfertile = lnelabor*lnfertile
+{txt}
+{com}. g lnelaborlnmachane = lnelabor*lnmachane
+{txt}
+{com}. g lnelaborlnot = lnelabor*lnot
+{txt}
+{com}. g lnfertilelnmachane = lnfertile*lnmachane
+{txt}
+{com}. g lnfertilelnot = lnfertile*lnot
+{txt}
+{com}. g lnmachanelnot = lnmachane*lnot
+{txt}
+{com}. 
+. **简单的相关性检验
+. //reg lnprofit lnland
+. pwcorr lnyield lnland,sig
+
+             {txt}{c |}  lnyield   lnland
+{hline 13}{c +}{hline 18}
+     lnyield {c |} {res}  1.0000 
+             {txt}{c |}
+             {c |}
+      lnland {c |} {res} -0.1477   1.0000 
+             {txt}{c |}{res}   0.0000
+             {txt}{c |}
+
+{com}. //pwcorr lnprofit lnland,sig
+. qui reg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy
+{txt}
+{com}. estat vif
+
+{txt}    Variable {c |}       VIF       1/VIF  
+{hline 13}{c +}{hline 22}
+{space 8}lnot {c |} {res}   627.69    0.001593
+{txt}{space 7}lnot2 {c |} {res}   624.28    0.001602
+{txt}lnfertilel~t {c |} {res}   335.26    0.002983
+{txt}{space 3}lnfertile {c |} {res}   225.00    0.004444
+{txt}{space 5}lnlabor {c |} {res}   220.41    0.004537
+{txt}lnlaborlnf~e {c |} {res}   219.99    0.004546
+{txt}{space 2}lnfertile2 {c |} {res}   217.79    0.004591
+{txt}{space 1}lnlaborlnot {c |} {res}   162.70    0.006146
+{txt}{space 3}lnmachane {c |} {res}   157.87    0.006334
+{txt}lnmachanel~t {c |} {res}   111.82    0.008943
+{txt}lnfertilel~e {c |} {res}   107.30    0.009320
+{txt}{space 4}lnlabor2 {c |} {res}    32.70    0.030580
+{txt}lnlaborlnm~e {c |} {res}    31.41    0.031833
+{txt}{space 8}land {c |} {res}     3.30    0.303019
+{txt}{space 6}lnland {c |} {res}     3.08    0.325103
+{txt}{space 2}lnmachane2 {c |} {res}     2.14    0.467951
+{txt}{space 7}plots {c |} {res}     1.32    0.758842
+{txt}{space 9}age {c |} {res}     1.31    0.762330
+{txt}{space 6}health {c |} {res}     1.28    0.779953
+{txt}{space 8}educ {c |} {res}     1.18    0.845798
+{txt}{space 9}job {c |} {res}     1.14    0.879256
+{txt}{space 8}loan {c |} {res}     1.12    0.889095
+{txt}{space 9}sex {c |} {res}     1.12    0.891733
+{txt}{space 7}train {c |} {res}     1.09    0.915336
+{txt}{space 2}insurances {c |} {res}     1.04    0.962354
+{txt}{space 6}status {c |} {res}     1.04    0.963789
+{txt}{space 3}lnsubsidy {c |} {res}     1.02    0.982795
+{txt}{space 5}fstruct {c |} {res}     1.01    0.986387
+{txt}{hline 13}{c +}{hline 22}
+    Mean VIF {c |} {res}   110.59
+{txt}
+{com}. qui reg lnyield lnland land lnlabor lnfertile lnmachane lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy
+{txt}
+{com}. estat vif
+
+{txt}    Variable {c |}       VIF       1/VIF  
+{hline 13}{c +}{hline 22}
+{space 8}land {c |} {res}     3.15    0.317212
+{txt}{space 6}lnland {c |} {res}     2.93    0.341592
+{txt}{space 5}lnlabor {c |} {res}     1.34    0.744666
+{txt}{space 9}age {c |} {res}     1.31    0.764402
+{txt}{space 7}plots {c |} {res}     1.31    0.764980
+{txt}{space 6}health {c |} {res}     1.28    0.783765
+{txt}{space 8}educ {c |} {res}     1.18    0.848003
+{txt}{space 3}lnfertile {c |} {res}     1.16    0.864192
+{txt}{space 3}lnmachane {c |} {res}     1.15    0.868188
+{txt}{space 8}lnot {c |} {res}     1.15    0.872526
+{txt}{space 9}job {c |} {res}     1.11    0.898078
+{txt}{space 9}sex {c |} {res}     1.11    0.898503
+{txt}{space 7}train {c |} {res}     1.09    0.918700
+{txt}{space 8}loan {c |} {res}     1.06    0.939319
+{txt}{space 6}status {c |} {res}     1.03    0.967014
+{txt}{space 2}insurances {c |} {res}     1.03    0.975546
+{txt}{space 3}lnsubsidy {c |} {res}     1.01    0.986123
+{txt}{space 5}fstruct {c |} {res}     1.01    0.990573
+{txt}{hline 13}{c +}{hline 22}
+    Mean VIF {c |} {res}     1.36
+{txt}
+{com}. pwcorr lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot
+
+             {txt}{c |}  lnlabor lnfer~le lnmach~e     lnot lnlabor2 lnfert~2    lnot2
+{hline 13}{c +}{hline 63}
+     lnlabor {c |} {res}  1.0000 
+   {txt}lnfertile {c |} {res}  0.1641   1.0000 
+   {txt}lnmachane {c |} {res} -0.2140   0.0524   1.0000 
+        {txt}lnot {c |} {res}  0.0075   0.2981   0.0970   1.0000 
+    {txt}lnlabor2 {c |} {res}  0.9808   0.1749  -0.2181   0.0008   1.0000 
+  {txt}lnfertile2 {c |} {res}  0.1732   0.9970   0.0426   0.3003   0.1837   1.0000 
+       {txt}lnot2 {c |} {res}  0.0109   0.2974   0.0897   0.9991   0.0045   0.3002   1.0000 
+{txt}lnlaborlnf~e {c |} {res}  0.9352   0.4947  -0.1720   0.1092   0.9257   0.5030   0.1121 
+{txt}lnlaborlnm~e {c |} {res} -0.0400   0.0664   0.9647   0.1047  -0.0589   0.0595   0.0980 
+ {txt}lnlaborlnot {c |} {res}  0.9283   0.2602  -0.1589   0.3681   0.9085   0.2700   0.3710 
+{txt}lnfertilel~e {c |} {res} -0.2058   0.0978   0.9931   0.1107  -0.2105   0.0889   0.1038 
+{txt}lnfertilel~t {c |} {res}  0.1085   0.8082   0.0890   0.7999   0.1109   0.8095   0.7996 
+{txt}lnmachanel~t {c |} {res} -0.2080   0.0663   0.9932   0.1468  -0.2115   0.0568   0.1398 
+
+             {txt}{c |} lnlab~le lnlab~ne lnlabo~t lnfer~ne lnfert~t lnmach~t
+{hline 13}{c +}{hline 54}
+lnlaborlnf~e {c |} {res}  1.0000 
+{txt}lnlaborlnm~e {c |} {res} -0.0145   1.0000 
+ {txt}lnlaborlnot {c |} {res}  0.9071   0.0079   1.0000 
+{txt}lnfertilel~e {c |} {res} -0.1498   0.9642  -0.1464   1.0000 
+{txt}lnfertilel~t {c |} {res}  0.3778   0.1036   0.3908   0.1265   1.0000 
+{txt}lnmachanel~t {c |} {res} -0.1622   0.9582  -0.1374   0.9905   0.1289   1.0000 
+{txt}
+{com}. 
+. xtreg lnlabor lnland lnland2,fe r
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0894{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.1958{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.2115{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}2{txt},{res}3131{txt}){col 67}={col 70}{res}   121.48
+{txt}corr(u_i, Xb){col 16}= {res}0.1041{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}     lnlabor{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}lnland {c |}{col 14}{res}{space 2}-.2778496{col 26}{space 2} .0298935{col 37}{space 1}   -9.29{col 46}{space 3}0.000{col 54}{space 4}-.3364624{col 67}{space 3}-.2192368
+{txt}{space 5}lnland2 {c |}{col 14}{res}{space 2} .0055688{col 26}{space 2} .0107454{col 37}{space 1}    0.52{col 46}{space 3}0.604{col 54}{space 4}-.0154999{col 67}{space 3} .0266375
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.104821{col 26}{space 2} .0218065{col 37}{space 1}  142.38{col 46}{space 3}0.000{col 54}{space 4} 3.062065{col 67}{space 3} 3.147578
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .59002486
+     {txt}sigma_e {c |} {res} .28576025
+         {txt}rho {c |} {res} .81000197{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. xtreg lnflabor lnland lnland2,fe r
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0445{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.1808{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.1681{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}2{txt},{res}3131{txt}){col 67}={col 70}{res}   105.26
+{txt}corr(u_i, Xb){col 16}= {res}0.0683{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}    lnflabor{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}lnland {c |}{col 14}{res}{space 2}-.2864381{col 26}{space 2} .0336719{col 37}{space 1}   -8.51{col 46}{space 3}0.000{col 54}{space 4}-.3524593{col 67}{space 3}-.2204168
+{txt}{space 5}lnland2 {c |}{col 14}{res}{space 2} .0001834{col 26}{space 2} .0136909{col 37}{space 1}    0.01{col 46}{space 3}0.989{col 54}{space 4}-.0266606{col 67}{space 3} .0270275
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.100382{col 26}{space 2} .0248166{col 37}{space 1}  124.93{col 46}{space 3}0.000{col 54}{space 4} 3.051724{col 67}{space 3} 3.149041
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .62811829
+     {txt}sigma_e {c |} {res} .44732574
+         {txt}rho {c |} {res} .66348933{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. xtreg lnelabor lnland lnland2,fe r
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0072{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.0063{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.0064{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}2{txt},{res}3131{txt}){col 67}={col 70}{res}    11.44
+{txt}corr(u_i, Xb){col 16}= {res}-0.1119{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}    lnelabor{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}lnland {c |}{col 14}{res}{space 2}  .292351{col 26}{space 2} .1323899{col 37}{space 1}    2.21{col 46}{space 3}0.027{col 54}{space 4} .0327711{col 67}{space 3} .5519309
+{txt}{space 5}lnland2 {c |}{col 14}{res}{space 2} .0426911{col 26}{space 2} .0487899{col 37}{space 1}    0.87{col 46}{space 3}0.382{col 54}{space 4}-.0529724{col 67}{space 3} .1383545
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.562912{col 26}{space 2} .1030823{col 37}{space 1}  -63.67{col 46}{space 3}0.000{col 54}{space 4}-6.765027{col 67}{space 3}-6.360796
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.8658647
+     {txt}sigma_e {c |} {res} 1.5722982
+         {txt}rho {c |} {res} .58476669{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. xtreg lnfertile lnland lnland2,fe r
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0666{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.0045{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.0106{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}2{txt},{res}3131{txt}){col 67}={col 70}{res}    84.65
+{txt}corr(u_i, Xb){col 16}= {res}-0.3525{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}   lnfertile{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}lnland {c |}{col 14}{res}{space 2}-.3154065{col 26}{space 2} .0373942{col 37}{space 1}   -8.43{col 46}{space 3}0.000{col 54}{space 4}-.3887262{col 67}{space 3}-.2420868
+{txt}{space 5}lnland2 {c |}{col 14}{res}{space 2} .0421725{col 26}{space 2}  .011791{col 37}{space 1}    3.58{col 46}{space 3}0.000{col 54}{space 4} .0190536{col 67}{space 3} .0652914
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 5.292114{col 26}{space 2} .0236402{col 37}{space 1}  223.86{col 46}{space 3}0.000{col 54}{space 4} 5.245762{col 67}{space 3} 5.338466
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .45623274
+     {txt}sigma_e {c |} {res} .29313642
+         {txt}rho {c |} {res} .70780142{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. xtreg lnmachane lnland lnland2,fe r
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0040{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.0233{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.0180{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}2{txt},{res}3131{txt}){col 67}={col 70}{res}     5.16
+{txt}corr(u_i, Xb){col 16}= {res}0.0779{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0058
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}   lnmachane{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}lnland {c |}{col 14}{res}{space 2} .6517205{col 26}{space 2} .2280164{col 37}{space 1}    2.86{col 46}{space 3}0.004{col 54}{space 4} .2046437{col 67}{space 3} 1.098797
+{txt}{space 5}lnland2 {c |}{col 14}{res}{space 2}-.2095743{col 26}{space 2} .0653086{col 37}{space 1}   -3.21{col 46}{space 3}0.001{col 54}{space 4}-.3376263{col 67}{space 3}-.0815223
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  2.66177{col 26}{space 2} .1542557{col 37}{space 1}   17.26{col 46}{space 3}0.000{col 54}{space 4} 2.359318{col 67}{space 3} 2.964223
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 4.0880348
+     {txt}sigma_e {c |} {res}   2.20542
+         {txt}rho {c |} {res} .77456903{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. xtreg lnot lnland lnland2,fe r
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.0612{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.0141{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.0103{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}2{txt},{res}3131{txt}){col 67}={col 70}{res}   103.12
+{txt}corr(u_i, Xb){col 16}= {res}-0.3365{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        lnot{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}lnland {c |}{col 14}{res}{space 2}-.2377124{col 26}{space 2} .0246674{col 37}{space 1}   -9.64{col 46}{space 3}0.000{col 54}{space 4}-.2860784{col 67}{space 3}-.1893464
+{txt}{space 5}lnland2 {c |}{col 14}{res}{space 2} .0160019{col 26}{space 2} .0078231{col 37}{space 1}    2.05{col 46}{space 3}0.041{col 54}{space 4}  .000663{col 67}{space 3} .0313407
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 5.169017{col 26}{space 2} .0184208{col 37}{space 1}  280.61{col 46}{space 3}0.000{col 54}{space 4} 5.132899{col 67}{space 3} 5.205134
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .43322667
+     {txt}sigma_e {c |} {res} .26882934
+         {txt}rho {c |} {res} .72199291{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. 
+. **混合回归、固定效应回归or随机效应回归？
+. qui xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy, re r
+{txt}
+{com}. xtoverid
+
+{txt}Test of overidentifying restrictions: fixed vs random effects
+Cross-section time-series model: xtreg re  robust cluster(id)
+Sargan-Hansen statistic{res}{col 25}460.715{txt}  Chi-sq({res}28{txt}){col 47}P-value = {res}0.0000
+{txt}
+{com}. reg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.sm i.year, vce(cluster id)
+
+{txt}Linear regression                               Number of obs     = {res}     9,790
+                                                {txt}F(40, 3131)       =  {res}    83.30
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.3376
+                                                {txt}Root MSE          =    {res} .18996
+
+{txt}{ralign 84:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 20}{c |}{col 32}    Robust
+{col 1}           lnyield{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}lnland {c |}{col 20}{res}{space 2}-.0392821{col 32}{space 2} .0065514{col 43}{space 1}   -6.00{col 52}{space 3}0.000{col 60}{space 4}-.0521275{col 73}{space 3}-.0264367
+{txt}{space 14}land {c |}{col 20}{res}{space 2} .0018909{col 32}{space 2} .0009637{col 43}{space 1}    1.96{col 52}{space 3}0.050{col 60}{space 4} 1.32e-06{col 73}{space 3} .0037805
+{txt}{space 11}lnlabor {c |}{col 20}{res}{space 2}-.0501517{col 32}{space 2} .0639286{col 43}{space 1}   -0.78{col 52}{space 3}0.433{col 60}{space 4}-.1754978{col 73}{space 3} .0751944
+{txt}{space 9}lnfertile {c |}{col 20}{res}{space 2}-.1238929{col 32}{space 2} .0917956{col 43}{space 1}   -1.35{col 52}{space 3}0.177{col 60}{space 4}-.3038786{col 73}{space 3} .0560928
+{txt}{space 9}lnmachane {c |}{col 20}{res}{space 2}-.0048247{col 32}{space 2} .0097209{col 43}{space 1}   -0.50{col 52}{space 3}0.620{col 60}{space 4}-.0238847{col 73}{space 3} .0142353
+{txt}{space 14}lnot {c |}{col 20}{res}{space 2}-.5357816{col 32}{space 2} .1514193{col 43}{space 1}   -3.54{col 52}{space 3}0.000{col 60}{space 4}-.8326728{col 73}{space 3}-.2388904
+{txt}{space 10}lnlabor2 {c |}{col 20}{res}{space 2} .0005063{col 32}{space 2} .0040951{col 43}{space 1}    0.12{col 52}{space 3}0.902{col 60}{space 4}-.0075232{col 73}{space 3} .0085357
+{txt}{space 8}lnfertile2 {c |}{col 20}{res}{space 2} .0201014{col 32}{space 2} .0088133{col 43}{space 1}    2.28{col 52}{space 3}0.023{col 60}{space 4} .0028209{col 73}{space 3}  .037382
+{txt}{space 8}lnmachane2 {c |}{col 20}{res}{space 2} .0044185{col 32}{space 2} .0003653{col 43}{space 1}   12.09{col 52}{space 3}0.000{col 60}{space 4} .0037022{col 73}{space 3} .0051348
+{txt}{space 13}lnot2 {c |}{col 20}{res}{space 2}  .061892{col 32}{space 2} .0155552{col 43}{space 1}    3.98{col 52}{space 3}0.000{col 60}{space 4} .0313925{col 73}{space 3} .0923915
+{txt}{space 2}lnlaborlnfertile {c |}{col 20}{res}{space 2} .0050086{col 32}{space 2}  .010318{col 43}{space 1}    0.49{col 52}{space 3}0.627{col 60}{space 4}-.0152221{col 73}{space 3} .0252393
+{txt}{space 2}lnlaborlnmachane {c |}{col 20}{res}{space 2}-.0033759{col 32}{space 2} .0013909{col 43}{space 1}   -2.43{col 52}{space 3}0.015{col 60}{space 4} -.006103{col 73}{space 3}-.0006488
+{txt}{space 7}lnlaborlnot {c |}{col 20}{res}{space 2}  .010001{col 32}{space 2} .0096841{col 43}{space 1}    1.03{col 52}{space 3}0.302{col 60}{space 4}-.0089868{col 73}{space 3} .0289887
+{txt}lnfertilelnmachane {c |}{col 20}{res}{space 2} .0001982{col 32}{space 2} .0015089{col 43}{space 1}    0.13{col 52}{space 3}0.896{col 60}{space 4}-.0027603{col 73}{space 3} .0031567
+{txt}{space 5}lnfertilelnot {c |}{col 20}{res}{space 2}-.0052142{col 32}{space 2}  .012883{col 43}{space 1}   -0.40{col 52}{space 3}0.686{col 60}{space 4}-.0304741{col 73}{space 3} .0200457
+{txt}{space 5}lnmachanelnot {c |}{col 20}{res}{space 2} .0051391{col 32}{space 2} .0015962{col 43}{space 1}    3.22{col 52}{space 3}0.001{col 60}{space 4} .0020094{col 73}{space 3} .0082688
+{txt}{space 15}sex {c |}{col 20}{res}{space 2}-.0003369{col 32}{space 2} .0124011{col 43}{space 1}   -0.03{col 52}{space 3}0.978{col 60}{space 4} -.024652{col 73}{space 3} .0239781
+{txt}{space 15}age {c |}{col 20}{res}{space 2}-.0008694{col 32}{space 2} .0003314{col 43}{space 1}   -2.62{col 52}{space 3}0.009{col 60}{space 4}-.0015191{col 73}{space 3}-.0002197
+{txt}{space 14}educ {c |}{col 20}{res}{space 2} -.002953{col 32}{space 2} .0012921{col 43}{space 1}   -2.29{col 52}{space 3}0.022{col 60}{space 4}-.0054865{col 73}{space 3}-.0004195
+{txt}{space 13}train {c |}{col 20}{res}{space 2}-.0147323{col 32}{space 2} .0091444{col 43}{space 1}   -1.61{col 52}{space 3}0.107{col 60}{space 4}-.0326619{col 73}{space 3} .0031973
+{txt}{space 12}health {c |}{col 20}{res}{space 2}-.0005224{col 32}{space 2} .0043327{col 43}{space 1}   -0.12{col 52}{space 3}0.904{col 60}{space 4}-.0090176{col 73}{space 3} .0079728
+{txt}{space 12}status {c |}{col 20}{res}{space 2} .0002318{col 32}{space 2} .0066287{col 43}{space 1}    0.03{col 52}{space 3}0.972{col 60}{space 4}-.0127653{col 73}{space 3}  .013229
+{txt}{space 11}fstruct {c |}{col 20}{res}{space 2}-.0027401{col 32}{space 2}  .006239{col 43}{space 1}   -0.44{col 52}{space 3}0.661{col 60}{space 4} -.014973{col 73}{space 3} .0094928
+{txt}{space 13}plots {c |}{col 20}{res}{space 2}-.0009061{col 32}{space 2} .0007625{col 43}{space 1}   -1.19{col 52}{space 3}0.235{col 60}{space 4}-.0024011{col 73}{space 3} .0005888
+{txt}{space 8}insurances {c |}{col 20}{res}{space 2} -.021722{col 32}{space 2} .0100404{col 43}{space 1}   -2.16{col 52}{space 3}0.031{col 60}{space 4}-.0414084{col 73}{space 3}-.0020356
+{txt}{space 14}loan {c |}{col 20}{res}{space 2}-.0943203{col 32}{space 2} .0119383{col 43}{space 1}   -7.90{col 52}{space 3}0.000{col 60}{space 4} -.117728{col 73}{space 3}-.0709126
+{txt}{space 15}job {c |}{col 20}{res}{space 2}-.0275596{col 32}{space 2} .0114872{col 43}{space 1}   -2.40{col 52}{space 3}0.016{col 60}{space 4}-.0500827{col 73}{space 3}-.0050364
+{txt}{space 9}lnsubsidy {c |}{col 20}{res}{space 2}-.0030164{col 32}{space 2} .0011304{col 43}{space 1}   -2.67{col 52}{space 3}0.008{col 60}{space 4}-.0052328{col 73}{space 3}-.0007999
+{txt}{space 18} {c |}
+{space 16}sm {c |}
+{space 15}34  {c |}{col 20}{res}{space 2} .0502762{col 32}{space 2} .0184171{col 43}{space 1}    2.73{col 52}{space 3}0.006{col 60}{space 4} .0141654{col 73}{space 3}  .086387
+{txt}{space 15}35  {c |}{col 20}{res}{space 2}-.0591954{col 32}{space 2} .0188391{col 43}{space 1}   -3.14{col 52}{space 3}0.002{col 60}{space 4}-.0961336{col 73}{space 3}-.0222573
+{txt}{space 15}36  {c |}{col 20}{res}{space 2}-.0828205{col 32}{space 2} .0190363{col 43}{space 1}   -4.35{col 52}{space 3}0.000{col 60}{space 4}-.1201454{col 73}{space 3}-.0454955
+{txt}{space 15}42  {c |}{col 20}{res}{space 2}-.0025014{col 32}{space 2} .0190764{col 43}{space 1}   -0.13{col 52}{space 3}0.896{col 60}{space 4} -.039905{col 73}{space 3} .0349022
+{txt}{space 15}43  {c |}{col 20}{res}{space 2}-.0609034{col 32}{space 2} .0181472{col 43}{space 1}   -3.36{col 52}{space 3}0.001{col 60}{space 4} -.096485{col 73}{space 3}-.0253218
+{txt}{space 15}44  {c |}{col 20}{res}{space 2}-.2523645{col 32}{space 2} .0216294{col 43}{space 1}  -11.67{col 52}{space 3}0.000{col 60}{space 4}-.2947737{col 73}{space 3}-.2099553
+{txt}{space 15}45  {c |}{col 20}{res}{space 2}-.2283638{col 32}{space 2}   .01852{col 43}{space 1}  -12.33{col 52}{space 3}0.000{col 60}{space 4}-.2646763{col 73}{space 3}-.1920512
+{txt}{space 15}46  {c |}{col 20}{res}{space 2}-.2917665{col 32}{space 2} .0218181{col 43}{space 1}  -13.37{col 52}{space 3}0.000{col 60}{space 4}-.3345458{col 73}{space 3}-.2489872
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}2012  {c |}{col 20}{res}{space 2} .0134519{col 32}{space 2} .0042487{col 43}{space 1}    3.17{col 52}{space 3}0.002{col 60}{space 4} .0051213{col 73}{space 3} .0217825
+{txt}{space 13}2013  {c |}{col 20}{res}{space 2}-.0020765{col 32}{space 2} .0127691{col 43}{space 1}   -0.16{col 52}{space 3}0.871{col 60}{space 4}-.0271132{col 73}{space 3} .0229603
+{txt}{space 13}2014  {c |}{col 20}{res}{space 2} .0075069{col 32}{space 2}  .005728{col 43}{space 1}    1.31{col 52}{space 3}0.190{col 60}{space 4}-.0037241{col 73}{space 3} .0187379
+{txt}{space 13}2015  {c |}{col 20}{res}{space 2} .0314086{col 32}{space 2} .0132745{col 43}{space 1}    2.37{col 52}{space 3}0.018{col 60}{space 4}  .005381{col 73}{space 3} .0574363
+{txt}{space 18} {c |}
+{space 13}_cons {c |}{col 20}{res}{space 2}  7.57776{col 32}{space 2} .4394985{col 43}{space 1}   17.24{col 52}{space 3}0.000{col 60}{space 4} 6.716026{col 73}{space 3} 8.439495
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, re r
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}     9,790
+{txt}Group variable: {res}id                              {txt}Number of groups  = {res}     3,132
+
+{txt}R-sq:                                           Obs per group:
+     within  = {res}0.0947                                         {txt}min = {res}         1
+{txt}     between = {res}0.2207                                         {txt}avg = {res}       3.1
+{txt}     overall = {res}0.1747                                         {txt}max = {res}         5
+
+                                                {txt}Wald chi2({res}32{txt})     =  {res}   904.67
+{txt}corr(u_i, X)   = {res}0{txt} (assumed)                    Prob > chi2       =     {res}0.0000
+
+{txt}{ralign 84:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 20}{c |}{col 32}    Robust
+{col 1}           lnyield{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      z{col 52}   P>|z|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}lnland {c |}{col 20}{res}{space 2} -.051498{col 32}{space 2} .0052846{col 43}{space 1}   -9.74{col 52}{space 3}0.000{col 60}{space 4}-.0618556{col 73}{space 3}-.0411403
+{txt}{space 14}land {c |}{col 20}{res}{space 2} .0016378{col 32}{space 2} .0006398{col 43}{space 1}    2.56{col 52}{space 3}0.010{col 60}{space 4} .0003839{col 73}{space 3} .0028918
+{txt}{space 11}lnlabor {c |}{col 20}{res}{space 2}-.0457806{col 32}{space 2} .0562162{col 43}{space 1}   -0.81{col 52}{space 3}0.415{col 60}{space 4}-.1559623{col 73}{space 3}  .064401
+{txt}{space 9}lnfertile {c |}{col 20}{res}{space 2}-.0357346{col 32}{space 2} .0772084{col 43}{space 1}   -0.46{col 52}{space 3}0.643{col 60}{space 4}-.1870602{col 73}{space 3}  .115591
+{txt}{space 9}lnmachane {c |}{col 20}{res}{space 2} .0252456{col 32}{space 2} .0086192{col 43}{space 1}    2.93{col 52}{space 3}0.003{col 60}{space 4} .0083523{col 73}{space 3} .0421389
+{txt}{space 14}lnot {c |}{col 20}{res}{space 2}-.2857684{col 32}{space 2} .1253056{col 43}{space 1}   -2.28{col 52}{space 3}0.023{col 60}{space 4}-.5313629{col 73}{space 3}-.0401739
+{txt}{space 10}lnlabor2 {c |}{col 20}{res}{space 2}  .008332{col 32}{space 2} .0039213{col 43}{space 1}    2.12{col 52}{space 3}0.034{col 60}{space 4} .0006464{col 73}{space 3} .0160177
+{txt}{space 8}lnfertile2 {c |}{col 20}{res}{space 2}-.0030945{col 32}{space 2} .0075629{col 43}{space 1}   -0.41{col 52}{space 3}0.682{col 60}{space 4}-.0179174{col 73}{space 3} .0117285
+{txt}{space 8}lnmachane2 {c |}{col 20}{res}{space 2} .0025826{col 32}{space 2} .0002882{col 43}{space 1}    8.96{col 52}{space 3}0.000{col 60}{space 4} .0020178{col 73}{space 3} .0031475
+{txt}{space 13}lnot2 {c |}{col 20}{res}{space 2}  .028685{col 32}{space 2} .0121537{col 43}{space 1}    2.36{col 52}{space 3}0.018{col 60}{space 4} .0048643{col 73}{space 3} .0525057
+{txt}{space 2}lnlaborlnfertile {c |}{col 20}{res}{space 2}-.0007551{col 32}{space 2} .0083847{col 43}{space 1}   -0.09{col 52}{space 3}0.928{col 60}{space 4}-.0171888{col 73}{space 3} .0156786
+{txt}{space 2}lnlaborlnmachane {c |}{col 20}{res}{space 2}-.0011936{col 32}{space 2} .0012644{col 43}{space 1}   -0.94{col 52}{space 3}0.345{col 60}{space 4}-.0036719{col 73}{space 3} .0012847
+{txt}{space 7}lnlaborlnot {c |}{col 20}{res}{space 2} .0007239{col 32}{space 2} .0086484{col 43}{space 1}    0.08{col 52}{space 3}0.933{col 60}{space 4}-.0162266{col 73}{space 3} .0176745
+{txt}lnfertilelnmachane {c |}{col 20}{res}{space 2}-.0023109{col 32}{space 2} .0011532{col 43}{space 1}   -2.00{col 52}{space 3}0.045{col 60}{space 4}-.0045712{col 73}{space 3}-.0000506
+{txt}{space 5}lnfertilelnot {c |}{col 20}{res}{space 2} .0208415{col 32}{space 2} .0108526{col 43}{space 1}    1.92{col 52}{space 3}0.055{col 60}{space 4}-.0004291{col 73}{space 3} .0421122
+{txt}{space 5}lnmachanelnot {c |}{col 20}{res}{space 2} .0000813{col 32}{space 2} .0013291{col 43}{space 1}    0.06{col 52}{space 3}0.951{col 60}{space 4}-.0025238{col 73}{space 3} .0026863
+{txt}{space 15}sex {c |}{col 20}{res}{space 2} .0084993{col 32}{space 2} .0094215{col 43}{space 1}    0.90{col 52}{space 3}0.367{col 60}{space 4}-.0099666{col 73}{space 3} .0269651
+{txt}{space 15}age {c |}{col 20}{res}{space 2}-.0001984{col 32}{space 2}  .000273{col 43}{space 1}   -0.73{col 52}{space 3}0.467{col 60}{space 4}-.0007335{col 73}{space 3} .0003367
+{txt}{space 14}educ {c |}{col 20}{res}{space 2} -.001817{col 32}{space 2} .0010129{col 43}{space 1}   -1.79{col 52}{space 3}0.073{col 60}{space 4}-.0038023{col 73}{space 3} .0001683
+{txt}{space 13}train {c |}{col 20}{res}{space 2} .0043038{col 32}{space 2} .0092217{col 43}{space 1}    0.47{col 52}{space 3}0.641{col 60}{space 4}-.0137705{col 73}{space 3}  .022378
+{txt}{space 12}health {c |}{col 20}{res}{space 2} .0012688{col 32}{space 2} .0032322{col 43}{space 1}    0.39{col 52}{space 3}0.695{col 60}{space 4}-.0050662{col 73}{space 3} .0076037
+{txt}{space 12}status {c |}{col 20}{res}{space 2} .0064843{col 32}{space 2} .0052707{col 43}{space 1}    1.23{col 52}{space 3}0.219{col 60}{space 4}-.0038461{col 73}{space 3} .0168147
+{txt}{space 11}fstruct {c |}{col 20}{res}{space 2} .0039722{col 32}{space 2} .0046893{col 43}{space 1}    0.85{col 52}{space 3}0.397{col 60}{space 4}-.0052187{col 73}{space 3} .0131631
+{txt}{space 13}plots {c |}{col 20}{res}{space 2}-.0003801{col 32}{space 2}  .000769{col 43}{space 1}   -0.49{col 52}{space 3}0.621{col 60}{space 4}-.0018873{col 73}{space 3} .0011271
+{txt}{space 8}insurances {c |}{col 20}{res}{space 2} .0202143{col 32}{space 2} .0064846{col 43}{space 1}    3.12{col 52}{space 3}0.002{col 60}{space 4} .0075047{col 73}{space 3} .0329239
+{txt}{space 14}loan {c |}{col 20}{res}{space 2}-.0290938{col 32}{space 2}  .008881{col 43}{space 1}   -3.28{col 52}{space 3}0.001{col 60}{space 4}-.0465003{col 73}{space 3}-.0116873
+{txt}{space 15}job {c |}{col 20}{res}{space 2}-.0075208{col 32}{space 2} .0098512{col 43}{space 1}   -0.76{col 52}{space 3}0.445{col 60}{space 4}-.0268287{col 73}{space 3} .0117872
+{txt}{space 9}lnsubsidy {c |}{col 20}{res}{space 2} .0000785{col 32}{space 2} .0008782{col 43}{space 1}    0.09{col 52}{space 3}0.929{col 60}{space 4}-.0016427{col 73}{space 3} .0017997
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}2012  {c |}{col 20}{res}{space 2} .0137246{col 32}{space 2} .0036798{col 43}{space 1}    3.73{col 52}{space 3}0.000{col 60}{space 4} .0065123{col 73}{space 3} .0209368
+{txt}{space 13}2013  {c |}{col 20}{res}{space 2} .0117679{col 32}{space 2} .0101382{col 43}{space 1}    1.16{col 52}{space 3}0.246{col 60}{space 4}-.0081026{col 73}{space 3} .0316385
+{txt}{space 13}2014  {c |}{col 20}{res}{space 2} .0123146{col 32}{space 2} .0048591{col 43}{space 1}    2.53{col 52}{space 3}0.011{col 60}{space 4}  .002791{col 73}{space 3} .0218381
+{txt}{space 13}2015  {c |}{col 20}{res}{space 2} .0403098{col 32}{space 2} .0105996{col 43}{space 1}    3.80{col 52}{space 3}0.000{col 60}{space 4} .0195349{col 73}{space 3} .0610847
+{txt}{space 18} {c |}
+{space 13}_cons {c |}{col 20}{res}{space 2} 6.620089{col 32}{space 2} .3652293{col 43}{space 1}   18.13{col 52}{space 3}0.000{col 60}{space 4} 5.904253{col 73}{space 3} 7.335926
+{txt}{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+           sigma_u {c |} {res} .16652556
+           {txt}sigma_e {c |} {res} .12486263
+               {txt}rho {c |} {res} .64011636{txt}   (fraction of variance due to u_i)
+{hline 19}{c BT}{hline 64}
+
+{com}. xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1129{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.0890{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.0875{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}32{txt},{res}3131{txt}){col 67}={col 70}{res}    14.61
+{txt}corr(u_i, Xb){col 16}= {res}0.0009{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 84:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 20}{c |}{col 32}    Robust
+{col 1}           lnyield{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}lnland {c |}{col 20}{res}{space 2}-.0294488{col 32}{space 2} .0093514{col 43}{space 1}   -3.15{col 52}{space 3}0.002{col 60}{space 4}-.0477843{col 73}{space 3}-.0111133
+{txt}{space 14}land {c |}{col 20}{res}{space 2}-.0008841{col 32}{space 2} .0012418{col 43}{space 1}   -0.71{col 52}{space 3}0.477{col 60}{space 4}-.0033188{col 73}{space 3} .0015507
+{txt}{space 11}lnlabor {c |}{col 20}{res}{space 2}-.0421941{col 32}{space 2} .0696167{col 43}{space 1}   -0.61{col 52}{space 3}0.544{col 60}{space 4}-.1786931{col 73}{space 3} .0943048
+{txt}{space 9}lnfertile {c |}{col 20}{res}{space 2}-.1429644{col 32}{space 2} .0893932{col 43}{space 1}   -1.60{col 52}{space 3}0.110{col 60}{space 4}-.3182397{col 73}{space 3} .0323108
+{txt}{space 9}lnmachane {c |}{col 20}{res}{space 2}  .020281{col 32}{space 2} .0106916{col 43}{space 1}    1.90{col 52}{space 3}0.058{col 60}{space 4}-.0006823{col 73}{space 3} .0412444
+{txt}{space 14}lnot {c |}{col 20}{res}{space 2}-.2430551{col 32}{space 2} .1413367{col 43}{space 1}   -1.72{col 52}{space 3}0.086{col 60}{space 4}-.5201771{col 73}{space 3} .0340668
+{txt}{space 10}lnlabor2 {c |}{col 20}{res}{space 2} .0125534{col 32}{space 2} .0054475{col 43}{space 1}    2.30{col 52}{space 3}0.021{col 60}{space 4} .0018724{col 73}{space 3} .0232344
+{txt}{space 8}lnfertile2 {c |}{col 20}{res}{space 2} .0105683{col 32}{space 2} .0083326{col 43}{space 1}    1.27{col 52}{space 3}0.205{col 60}{space 4}-.0057696{col 73}{space 3} .0269062
+{txt}{space 8}lnmachane2 {c |}{col 20}{res}{space 2}  .000735{col 32}{space 2} .0003458{col 43}{space 1}    2.13{col 52}{space 3}0.034{col 60}{space 4}  .000057{col 73}{space 3} .0014131
+{txt}{space 13}lnot2 {c |}{col 20}{res}{space 2} .0226142{col 32}{space 2} .0134482{col 43}{space 1}    1.68{col 52}{space 3}0.093{col 60}{space 4}-.0037539{col 73}{space 3} .0489823
+{txt}{space 2}lnlaborlnfertile {c |}{col 20}{res}{space 2} .0018228{col 32}{space 2} .0098285{col 43}{space 1}    0.19{col 52}{space 3}0.853{col 60}{space 4}-.0174481{col 73}{space 3} .0210938
+{txt}{space 2}lnlaborlnmachane {c |}{col 20}{res}{space 2}-.0016257{col 32}{space 2} .0017246{col 43}{space 1}   -0.94{col 52}{space 3}0.346{col 60}{space 4}-.0050071{col 73}{space 3} .0017558
+{txt}{space 7}lnlaborlnot {c |}{col 20}{res}{space 2}-.0003063{col 32}{space 2} .0106248{col 43}{space 1}   -0.03{col 52}{space 3}0.977{col 60}{space 4}-.0211385{col 73}{space 3}  .020526
+{txt}lnfertilelnmachane {c |}{col 20}{res}{space 2}-.0016054{col 32}{space 2} .0013492{col 43}{space 1}   -1.19{col 52}{space 3}0.234{col 60}{space 4}-.0042509{col 73}{space 3} .0010401
+{txt}{space 5}lnfertilelnot {c |}{col 20}{res}{space 2}  .016721{col 32}{space 2} .0121046{col 43}{space 1}    1.38{col 52}{space 3}0.167{col 60}{space 4}-.0070127{col 73}{space 3} .0404546
+{txt}{space 5}lnmachanelnot {c |}{col 20}{res}{space 2}-.0004263{col 32}{space 2} .0016997{col 43}{space 1}   -0.25{col 52}{space 3}0.802{col 60}{space 4}-.0037588{col 73}{space 3} .0029063
+{txt}{space 15}sex {c |}{col 20}{res}{space 2} .0038063{col 32}{space 2} .0104264{col 43}{space 1}    0.37{col 52}{space 3}0.715{col 60}{space 4} -.016637{col 73}{space 3} .0242496
+{txt}{space 15}age {c |}{col 20}{res}{space 2} .0000554{col 32}{space 2} .0003148{col 43}{space 1}    0.18{col 52}{space 3}0.860{col 60}{space 4}-.0005618{col 73}{space 3} .0006726
+{txt}{space 14}educ {c |}{col 20}{res}{space 2} .0006409{col 32}{space 2}  .001171{col 43}{space 1}    0.55{col 52}{space 3}0.584{col 60}{space 4}-.0016552{col 73}{space 3}  .002937
+{txt}{space 13}train {c |}{col 20}{res}{space 2} .0349478{col 32}{space 2} .0106404{col 43}{space 1}    3.28{col 52}{space 3}0.001{col 60}{space 4}  .014085{col 73}{space 3} .0558106
+{txt}{space 12}health {c |}{col 20}{res}{space 2} .0056324{col 32}{space 2} .0035326{col 43}{space 1}    1.59{col 52}{space 3}0.111{col 60}{space 4}-.0012941{col 73}{space 3} .0125589
+{txt}{space 12}status {c |}{col 20}{res}{space 2} .0053098{col 32}{space 2} .0060287{col 43}{space 1}    0.88{col 52}{space 3}0.379{col 60}{space 4}-.0065109{col 73}{space 3} .0171304
+{txt}{space 11}fstruct {c |}{col 20}{res}{space 2}-.0001029{col 32}{space 2} .0049709{col 43}{space 1}   -0.02{col 52}{space 3}0.983{col 60}{space 4}-.0098495{col 73}{space 3} .0096437
+{txt}{space 13}plots {c |}{col 20}{res}{space 2}  .000706{col 32}{space 2} .0008259{col 43}{space 1}    0.85{col 52}{space 3}0.393{col 60}{space 4}-.0009134{col 73}{space 3} .0023254
+{txt}{space 8}insurances {c |}{col 20}{res}{space 2}-.0016319{col 32}{space 2} .0066426{col 43}{space 1}   -0.25{col 52}{space 3}0.806{col 60}{space 4}-.0146562{col 73}{space 3} .0113925
+{txt}{space 14}loan {c |}{col 20}{res}{space 2} .0003039{col 32}{space 2} .0095655{col 43}{space 1}    0.03{col 52}{space 3}0.975{col 60}{space 4}-.0184513{col 73}{space 3} .0190592
+{txt}{space 15}job {c |}{col 20}{res}{space 2}-.0237919{col 32}{space 2} .0122079{col 43}{space 1}   -1.95{col 52}{space 3}0.051{col 60}{space 4}-.0477281{col 73}{space 3} .0001444
+{txt}{space 9}lnsubsidy {c |}{col 20}{res}{space 2} .0012136{col 32}{space 2} .0009391{col 43}{space 1}    1.29{col 52}{space 3}0.196{col 60}{space 4}-.0006277{col 73}{space 3} .0030549
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}2012  {c |}{col 20}{res}{space 2} .0198581{col 32}{space 2} .0037737{col 43}{space 1}    5.26{col 52}{space 3}0.000{col 60}{space 4}  .012459{col 73}{space 3} .0272572
+{txt}{space 13}2013  {c |}{col 20}{res}{space 2} .0261184{col 32}{space 2}  .011081{col 43}{space 1}    2.36{col 52}{space 3}0.018{col 60}{space 4} .0043917{col 73}{space 3} .0478451
+{txt}{space 13}2014  {c |}{col 20}{res}{space 2} .0331178{col 32}{space 2} .0051033{col 43}{space 1}    6.49{col 52}{space 3}0.000{col 60}{space 4} .0231117{col 73}{space 3} .0431239
+{txt}{space 13}2015  {c |}{col 20}{res}{space 2} .0611073{col 32}{space 2} .0116297{col 43}{space 1}    5.25{col 52}{space 3}0.000{col 60}{space 4} .0383048{col 73}{space 3} .0839098
+{txt}{space 18} {c |}
+{space 13}_cons {c |}{col 20}{res}{space 2} 6.764418{col 32}{space 2} .4151287{col 43}{space 1}   16.29{col 52}{space 3}0.000{col 60}{space 4} 5.950467{col 73}{space 3}  7.57837
+{txt}{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+           sigma_u {c |} {res} .20904004
+           {txt}sigma_e {c |} {res} .12486263
+               {txt}rho {c |} {res}  .7370367{txt}   (fraction of variance due to u_i)
+{hline 19}{c BT}{hline 64}
+
+{com}. 
+. 
+. **二次项和交叉项联合检验
+. tab year, gen(y)
+
+       {txt}year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2011 {c |}{res}      2,399       24.50       24.50
+{txt}       2012 {c |}{res}      2,105       21.50       46.01
+{txt}       2013 {c |}{res}      1,900       19.41       65.41
+{txt}       2014 {c |}{res}      1,816       18.55       83.96
+{txt}       2015 {c |}{res}      1,570       16.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      9,790      100.00
+{txt}
+{com}. xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy y2-y5, fe vce(cluster id)
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}     9,790
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}     3,132
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1129{col 63}{txt}min{col 67}={col 69}{res}         1
+{txt}     between = {res}0.0890{col 63}{txt}avg{col 67}={col 69}{res}       3.1
+{txt}     overall = {res}0.0875{col 63}{txt}max{col 67}={col 69}{res}         5
+
+{txt}{col 49}F({res}32{txt},{res}3131{txt}){col 67}={col 70}{res}    14.61
+{txt}corr(u_i, Xb){col 16}= {res}0.0009{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0000
+
+{txt}{ralign 84:(Std. Err. adjusted for {res:3,132} clusters in id)}
+{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 20}{c |}{col 32}    Robust
+{col 1}           lnyield{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 12}lnland {c |}{col 20}{res}{space 2}-.0294488{col 32}{space 2} .0093514{col 43}{space 1}   -3.15{col 52}{space 3}0.002{col 60}{space 4}-.0477843{col 73}{space 3}-.0111133
+{txt}{space 14}land {c |}{col 20}{res}{space 2}-.0008841{col 32}{space 2} .0012418{col 43}{space 1}   -0.71{col 52}{space 3}0.477{col 60}{space 4}-.0033188{col 73}{space 3} .0015507
+{txt}{space 11}lnlabor {c |}{col 20}{res}{space 2}-.0421941{col 32}{space 2} .0696167{col 43}{space 1}   -0.61{col 52}{space 3}0.544{col 60}{space 4}-.1786931{col 73}{space 3} .0943048
+{txt}{space 9}lnfertile {c |}{col 20}{res}{space 2}-.1429644{col 32}{space 2} .0893932{col 43}{space 1}   -1.60{col 52}{space 3}0.110{col 60}{space 4}-.3182397{col 73}{space 3} .0323108
+{txt}{space 9}lnmachane {c |}{col 20}{res}{space 2}  .020281{col 32}{space 2} .0106916{col 43}{space 1}    1.90{col 52}{space 3}0.058{col 60}{space 4}-.0006823{col 73}{space 3} .0412444
+{txt}{space 14}lnot {c |}{col 20}{res}{space 2}-.2430551{col 32}{space 2} .1413367{col 43}{space 1}   -1.72{col 52}{space 3}0.086{col 60}{space 4}-.5201771{col 73}{space 3} .0340668
+{txt}{space 10}lnlabor2 {c |}{col 20}{res}{space 2} .0125534{col 32}{space 2} .0054475{col 43}{space 1}    2.30{col 52}{space 3}0.021{col 60}{space 4} .0018724{col 73}{space 3} .0232344
+{txt}{space 8}lnfertile2 {c |}{col 20}{res}{space 2} .0105683{col 32}{space 2} .0083326{col 43}{space 1}    1.27{col 52}{space 3}0.205{col 60}{space 4}-.0057696{col 73}{space 3} .0269062
+{txt}{space 8}lnmachane2 {c |}{col 20}{res}{space 2}  .000735{col 32}{space 2} .0003458{col 43}{space 1}    2.13{col 52}{space 3}0.034{col 60}{space 4}  .000057{col 73}{space 3} .0014131
+{txt}{space 13}lnot2 {c |}{col 20}{res}{space 2} .0226142{col 32}{space 2} .0134482{col 43}{space 1}    1.68{col 52}{space 3}0.093{col 60}{space 4}-.0037539{col 73}{space 3} .0489823
+{txt}{space 2}lnlaborlnfertile {c |}{col 20}{res}{space 2} .0018228{col 32}{space 2} .0098285{col 43}{space 1}    0.19{col 52}{space 3}0.853{col 60}{space 4}-.0174481{col 73}{space 3} .0210938
+{txt}{space 2}lnlaborlnmachane {c |}{col 20}{res}{space 2}-.0016257{col 32}{space 2} .0017246{col 43}{space 1}   -0.94{col 52}{space 3}0.346{col 60}{space 4}-.0050071{col 73}{space 3} .0017558
+{txt}{space 7}lnlaborlnot {c |}{col 20}{res}{space 2}-.0003063{col 32}{space 2} .0106248{col 43}{space 1}   -0.03{col 52}{space 3}0.977{col 60}{space 4}-.0211385{col 73}{space 3}  .020526
+{txt}lnfertilelnmachane {c |}{col 20}{res}{space 2}-.0016054{col 32}{space 2} .0013492{col 43}{space 1}   -1.19{col 52}{space 3}0.234{col 60}{space 4}-.0042509{col 73}{space 3} .0010401
+{txt}{space 5}lnfertilelnot {c |}{col 20}{res}{space 2}  .016721{col 32}{space 2} .0121046{col 43}{space 1}    1.38{col 52}{space 3}0.167{col 60}{space 4}-.0070127{col 73}{space 3} .0404546
+{txt}{space 5}lnmachanelnot {c |}{col 20}{res}{space 2}-.0004263{col 32}{space 2} .0016997{col 43}{space 1}   -0.25{col 52}{space 3}0.802{col 60}{space 4}-.0037588{col 73}{space 3} .0029063
+{txt}{space 15}sex {c |}{col 20}{res}{space 2} .0038063{col 32}{space 2} .0104264{col 43}{space 1}    0.37{col 52}{space 3}0.715{col 60}{space 4} -.016637{col 73}{space 3} .0242496
+{txt}{space 15}age {c |}{col 20}{res}{space 2} .0000554{col 32}{space 2} .0003148{col 43}{space 1}    0.18{col 52}{space 3}0.860{col 60}{space 4}-.0005618{col 73}{space 3} .0006726
+{txt}{space 14}educ {c |}{col 20}{res}{space 2} .0006409{col 32}{space 2}  .001171{col 43}{space 1}    0.55{col 52}{space 3}0.584{col 60}{space 4}-.0016552{col 73}{space 3}  .002937
+{txt}{space 13}train {c |}{col 20}{res}{space 2} .0349478{col 32}{space 2} .0106404{col 43}{space 1}    3.28{col 52}{space 3}0.001{col 60}{space 4}  .014085{col 73}{space 3} .0558106
+{txt}{space 12}health {c |}{col 20}{res}{space 2} .0056324{col 32}{space 2} .0035326{col 43}{space 1}    1.59{col 52}{space 3}0.111{col 60}{space 4}-.0012941{col 73}{space 3} .0125589
+{txt}{space 12}status {c |}{col 20}{res}{space 2} .0053098{col 32}{space 2} .0060287{col 43}{space 1}    0.88{col 52}{space 3}0.379{col 60}{space 4}-.0065109{col 73}{space 3} .0171304
+{txt}{space 11}fstruct {c |}{col 20}{res}{space 2}-.0001029{col 32}{space 2} .0049709{col 43}{space 1}   -0.02{col 52}{space 3}0.983{col 60}{space 4}-.0098495{col 73}{space 3} .0096437
+{txt}{space 13}plots {c |}{col 20}{res}{space 2}  .000706{col 32}{space 2} .0008259{col 43}{space 1}    0.85{col 52}{space 3}0.393{col 60}{space 4}-.0009134{col 73}{space 3} .0023254
+{txt}{space 8}insurances {c |}{col 20}{res}{space 2}-.0016319{col 32}{space 2} .0066426{col 43}{space 1}   -0.25{col 52}{space 3}0.806{col 60}{space 4}-.0146562{col 73}{space 3} .0113925
+{txt}{space 14}loan {c |}{col 20}{res}{space 2} .0003039{col 32}{space 2} .0095655{col 43}{space 1}    0.03{col 52}{space 3}0.975{col 60}{space 4}-.0184513{col 73}{space 3} .0190592
+{txt}{space 15}job {c |}{col 20}{res}{space 2}-.0237919{col 32}{space 2} .0122079{col 43}{space 1}   -1.95{col 52}{space 3}0.051{col 60}{space 4}-.0477281{col 73}{space 3} .0001444
+{txt}{space 9}lnsubsidy {c |}{col 20}{res}{space 2} .0012136{col 32}{space 2} .0009391{col 43}{space 1}    1.29{col 52}{space 3}0.196{col 60}{space 4}-.0006277{col 73}{space 3} .0030549
+{txt}{space 16}y2 {c |}{col 20}{res}{space 2} .0198581{col 32}{space 2} .0037737{col 43}{space 1}    5.26{col 52}{space 3}0.000{col 60}{space 4}  .012459{col 73}{space 3} .0272572
+{txt}{space 16}y3 {c |}{col 20}{res}{space 2} .0261184{col 32}{space 2}  .011081{col 43}{space 1}    2.36{col 52}{space 3}0.018{col 60}{space 4} .0043917{col 73}{space 3} .0478451
+{txt}{space 16}y4 {c |}{col 20}{res}{space 2} .0331178{col 32}{space 2} .0051033{col 43}{space 1}    6.49{col 52}{space 3}0.000{col 60}{space 4} .0231117{col 73}{space 3} .0431239
+{txt}{space 16}y5 {c |}{col 20}{res}{space 2} .0611073{col 32}{space 2} .0116297{col 43}{space 1}    5.25{col 52}{space 3}0.000{col 60}{space 4} .0383048{col 73}{space 3} .0839098
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} 6.764418{col 32}{space 2} .4151287{col 43}{space 1}   16.29{col 52}{space 3}0.000{col 60}{space 4} 5.950467{col 73}{space 3}  7.57837
+{txt}{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+           sigma_u {c |} {res} .20904004
+           {txt}sigma_e {c |} {res} .12486263
+               {txt}rho {c |} {res}  .7370367{txt}   (fraction of variance due to u_i)
+{hline 19}{c BT}{hline 64}
+
+{com}. test lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}lnlabor2 = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} lnfertile2 = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} lnmachane2 = 0{p_end}
+{p 0 7}{space 1}{text:( 4)}{space 1} lnot2 = 0{p_end}
+{p 0 7}{space 1}{text:( 5)}{space 1} lnlaborlnfertile = 0{p_end}
+{p 0 7}{space 1}{text:( 6)}{space 1} lnlaborlnmachane = 0{p_end}
+{p 0 7}{space 1}{text:( 7)}{space 1} lnlaborlnot = 0{p_end}
+{p 0 7}{space 1}{text:( 8)}{space 1} lnfertilelnmachane = 0{p_end}
+{p 0 7}{space 1}{text:( 9)}{space 1} lnfertilelnot = 0{p_end}
+{p 0 7}{space 1}{text:(10)}{space 1} lnmachanelnot = 0{p_end}
+
+{txt}       F( 10,  3131) ={res}    2.57
+{txt}{col 13}Prob > F ={res}    0.0043
+{txt}
+{com}. test y2 y3 y4 y5
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}y2 = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} y3 = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} y4 = 0{p_end}
+{p 0 7}{space 1}{text:( 4)}{space 1} y5 = 0{p_end}
+
+{txt}       F(  4,  3131) ={res}   22.24
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. log off
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\曾翠红\Stata14\新建文件夹 - 副本 (2)\新建文件夹\水稻log.smcl
+  {txt}log type:  {res}smcl
+ {txt}paused on:  {res}22 Feb 2019, 14:59:33
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
