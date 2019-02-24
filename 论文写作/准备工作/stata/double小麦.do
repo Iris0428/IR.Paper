@@ -203,6 +203,7 @@ oneway yield caland, mean bonferroni
 oneway labor caland, mean bonferroni 
 oneway flabor caland, mean bonferroni 
 oneway elabor caland, mean bonferroni 
+oneway fertile caland, mean bonferroni 
 oneway machane caland, mean bonferroni 
 oneway ot caland, mean bonferroni 
 oneway subsidy caland, mean bonferroni 
