@@ -179,9 +179,9 @@ replace fstructs=avg_fstruct if fstruct==.
 winsor fstructs, gen (fstruct) p(0.01)
 
 g caland = land 
-replace caland = 1 if land>=0&land<10
-replace caland = 2 if land>=10&land<50
-replace caland = 3 if land>=50
+replace caland = 1 if land>=0&land<5
+replace caland = 2 if land>=5&land<10
+replace caland = 3 if land>=10
 
 tabstat yield land labor flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status, statistics(mean ma mi q sk k sd n) 
 
