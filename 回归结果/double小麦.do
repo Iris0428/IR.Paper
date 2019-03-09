@@ -180,7 +180,7 @@ replace caland = 1 if land>=0&land<5
 replace caland = 2 if land>=5&land<10
 replace caland = 3 if land>=10
 
-tabstat yield land labor flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status, statistics(mean ma mi q sk k sd n) 
+tabstat yield land labor flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status, statistics(mean ma mi q sd n) 
 
 
 **删除面板重复值
@@ -188,12 +188,12 @@ duplicates drop id year,force
 xtset id year
 
 **分类均值、最大值、最小值、25%、50%、75%、偏度、峰度、标准差分析
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status, by(caland) statistics(mean ma mi q sk k sd n) 
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2011, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2012, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2013, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2014, by(caland) statistics(mean ma mi q sk k sd n)
-tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2015, by(caland) statistics(mean ma mi q sk k sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status, by(caland) statistics(mean ma mi q sd n) 
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2011, by(caland) statistics(mean ma mi q sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2012, by(caland) statistics(mean ma mi q sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2013, by(caland) statistics(mean ma mi q sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2014, by(caland) statistics(mean ma mi q sd n)
+tabstat yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status if year==2015, by(caland) statistics(mean ma mi q sd n)
 xtsum yield land labor  flabor elabor fertile machane ot subsidy insurance loan plots fstruct job sex age educ train health status
 
 **方差分析
@@ -256,24 +256,17 @@ pwcorr lnyield lnland,sig
 //pwcorr lnprofit lnland,sig
 qui reg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy
 estat vif
-qui reg lnyield lnland land lnlabor lnfertile lnmachane lnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy
-estat vif
-pwcorr lnlabor lnfertile lnmachane lnot lnfertile2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot
 
-xtreg lnlabor lnland lnland2,fe r
-xtreg lnflabor lnland lnland2,fe r
-xtreg lnelabor lnland lnland2,fe r
-xtreg lnfertile lnland lnland2,fe r
-xtreg lnmachane lnland lnland2,fe r
-xtreg lnot lnland lnland2,fe r
+xtreg lnlabor lnland land,fe r
+xtreg lnflabor lnland land,fe r
+xtreg lnelabor lnland land,fe r
+xtreg lnfertile lnland land,fe r
+xtreg lnmachane lnland land,fe r
+xtreg lnot lnland land,fe r
 
 **混合回归、固定效应回归or随机效应回归？
 qui xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy, re r
 xtoverid
-reg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.sm i.year, vce(cluster id)
-xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, re r
-xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy i.year, fe r
-
 
 **二次项和交叉项联合检验
 tab year, gen(y)
@@ -281,3 +274,6 @@ xtreg lnyield lnland land lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 l
 test lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot
 test y2 y3 y4 y5
 
+xtreg lnyield lnland lnlabor lnfertile lnmachane lnot lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot sex age educ train health status  fstruct plots  insurance loan job lnsubsidy y2-y5, fe vce(cluster id)
+test lnlabor2 lnfertile2 lnmachane2 lnot2 lnlaborlnfertile lnlaborlnmachane lnlaborlnot lnfertilelnmachane lnfertilelnot lnmachanelnot
+test y2 y3 y4 y5
